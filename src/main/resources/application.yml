@@ -2,7 +2,7 @@ server:
   port: 8080
 spring:
     datasource:
-        name: asker2askee
+        name: gugugu
         type: com.alibaba.druid.pool.DruidDataSource
         #druid相关配置
         druid:
@@ -10,9 +10,9 @@ spring:
           filters: stat
           driver-class-name: com.mysql.jdbc.Driver
           #基本属性
-          url: jdbc:mysql://ipaddress:3306/database?useUnicode=true&characterEncoding=UTF-8&allowMultiQueries=true
-          username:
-          password:
+          url: jdbc:mysql://193.112.77.221:3306/web_class_db?useUnicode=true&characterEncoding=UTF-8&allowMultiQueries=true
+          username: web_class_member
+          password: web_class_123
           #配置初始化大小/最小/最大
           initial-size: 1
           min-idle: 1
