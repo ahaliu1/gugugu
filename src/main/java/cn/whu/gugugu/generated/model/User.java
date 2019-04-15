@@ -9,7 +9,7 @@ public class User {
 
     private Integer account;
 
-    private Integer session;
+    private String token;
 
     private Integer loginTime;
 
@@ -45,12 +45,12 @@ public class User {
         this.account = account;
     }
 
-    public Integer getSession() {
-        return session;
+    public String getToken() {
+        return token;
     }
 
-    public void setSession(Integer session) {
-        this.session = session;
+    public void setToken(String token) {
+        this.token = token == null ? null : token.trim();
     }
 
     public Integer getLoginTime() {

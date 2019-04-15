@@ -156,9 +156,9 @@
       <Position>4</Position>
       <DataType>int(11)|0</DataType>
     </column>
-    <column id="39" parent="7" name="session">
+    <column id="39" parent="7" name="token">
       <Position>5</Position>
-      <DataType>int(11)|0</DataType>
+      <DataType>varchar(32)|0</DataType>
     </column>
     <column id="40" parent="7" name="login_time">
       <Position>6</Position>
