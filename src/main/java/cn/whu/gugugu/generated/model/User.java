@@ -1,17 +1,19 @@
 package cn.whu.gugugu.generated.model;
 
+import java.util.Date;
+
 public class User {
     private String openId;
 
     private String userName;
 
-    private Integer header;
-
     private Integer account;
 
     private String token;
 
-    private Integer loginTime;
+    private Date loginTime;
+
+    private String header;
 
     public String getOpenId() {
         return openId;
@@ -27,14 +29,6 @@ public class User {
 
     public void setUserName(String userName) {
         this.userName = userName == null ? null : userName.trim();
-    }
-
-    public Integer getHeader() {
-        return header;
-    }
-
-    public void setHeader(Integer header) {
-        this.header = header;
     }
 
     public Integer getAccount() {
@@ -53,11 +47,19 @@ public class User {
         this.token = token == null ? null : token.trim();
     }
 
-    public Integer getLoginTime() {
+    public Date getLoginTime() {
         return loginTime;
     }
 
-    public void setLoginTime(Integer loginTime) {
+    public void setLoginTime(Date loginTime) {
         this.loginTime = loginTime;
+    }
+
+    public String getHeader() {
+        return header;
+    }
+
+    public void setHeader(String header) {
+        this.header = header == null ? null : header.trim();
     }
 }
