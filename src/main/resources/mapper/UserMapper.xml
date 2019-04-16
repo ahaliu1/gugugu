@@ -4,10 +4,12 @@
   <resultMap id="BaseResultMap" type="cn.whu.gugugu.generated.model.User">
     <id column="open_id" jdbcType="VARCHAR" property="openId" />
     <result column="user_name" jdbcType="VARCHAR" property="userName" />
-    <result column="header" jdbcType="INTEGER" property="header" />
     <result column="account" jdbcType="INTEGER" property="account" />
     <result column="token" jdbcType="VARCHAR" property="token" />
-    <result column="login_time" jdbcType="INTEGER" property="loginTime" />
+    <result column="login_time" jdbcType="TIMESTAMP" property="loginTime" />
+  </resultMap>
+  <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="cn.whu.gugugu.generated.model.User">
+    <result column="header" jdbcType="LONGVARCHAR" property="header" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -68,8 +70,27 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    open_id, user_name, header, account, token, login_time
+    open_id, user_name, account, token, login_time
   </sql>
+  <sql id="Blob_Column_List">
+    header
+  </sql>
+  <select id="selectByExampleWithBLOBs" parameterType="cn.whu.gugugu.generated.model.UserExample" resultMap="ResultMapWithBLOBs">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from user
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
   <select id="selectByExample" parameterType="cn.whu.gugugu.generated.model.UserExample" resultMap="BaseResultMap">
     select
     <if test="distinct">
@@ -84,9 +105,11 @@
       order by ${orderByClause}
     </if>
   </select>
-  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="ResultMapWithBLOBs">
     select 
     <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
     from user
     where open_id = #{openId,jdbcType=VARCHAR}
   </select>
@@ -101,11 +124,11 @@
     </if>
   </delete>
   <insert id="insert" parameterType="cn.whu.gugugu.generated.model.User">
-    insert into user (open_id, user_name, header, 
-      account, token, login_time
+    insert into user (open_id, user_name, account, 
+      token, login_time, header
       )
-    values (#{openId,jdbcType=VARCHAR}, #{userName,jdbcType=VARCHAR}, #{header,jdbcType=INTEGER}, 
-      #{account,jdbcType=INTEGER}, #{token,jdbcType=VARCHAR}, #{loginTime,jdbcType=INTEGER}
+    values (#{openId,jdbcType=VARCHAR}, #{userName,jdbcType=VARCHAR}, #{account,jdbcType=INTEGER}, 
+      #{token,jdbcType=VARCHAR}, #{loginTime,jdbcType=TIMESTAMP}, #{header,jdbcType=LONGVARCHAR}
       )
   </insert>
   <insert id="insertSelective" parameterType="cn.whu.gugugu.generated.model.User">
@@ -117,9 +140,6 @@
       <if test="userName != null">
         user_name,
       </if>
-      <if test="header != null">
-        header,
-      </if>
       <if test="account != null">
         account,
       </if>
@@ -129,6 +149,9 @@
       <if test="loginTime != null">
         login_time,
       </if>
+      <if test="header != null">
+        header,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="openId != null">
@@ -137,9 +160,6 @@
       <if test="userName != null">
         #{userName,jdbcType=VARCHAR},
       </if>
-      <if test="header != null">
-        #{header,jdbcType=INTEGER},
-      </if>
       <if test="account != null">
         #{account,jdbcType=INTEGER},
       </if>
@@ -147,7 +167,10 @@
         #{token,jdbcType=VARCHAR},
       </if>
       <if test="loginTime != null">
-        #{loginTime,jdbcType=INTEGER},
+        #{loginTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="header != null">
+        #{header,jdbcType=LONGVARCHAR},
       </if>
     </trim>
   </insert>
@@ -166,9 +189,6 @@
       <if test="record.userName != null">
         user_name = #{record.userName,jdbcType=VARCHAR},
       </if>
-      <if test="record.header != null">
-        header = #{record.header,jdbcType=INTEGER},
-      </if>
       <if test="record.account != null">
         account = #{record.account,jdbcType=INTEGER},
       </if>
@@ -176,9 +196,24 @@
         token = #{record.token,jdbcType=VARCHAR},
       </if>
       <if test="record.loginTime != null">
-        login_time = #{record.loginTime,jdbcType=INTEGER},
+        login_time = #{record.loginTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.header != null">
+        header = #{record.header,jdbcType=LONGVARCHAR},
       </if>
     </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExampleWithBLOBs" parameterType="map">
+    update user
+    set open_id = #{record.openId,jdbcType=VARCHAR},
+      user_name = #{record.userName,jdbcType=VARCHAR},
+      account = #{record.account,jdbcType=INTEGER},
+      token = #{record.token,jdbcType=VARCHAR},
+      login_time = #{record.loginTime,jdbcType=TIMESTAMP},
+      header = #{record.header,jdbcType=LONGVARCHAR}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -187,10 +222,9 @@
     update user
     set open_id = #{record.openId,jdbcType=VARCHAR},
       user_name = #{record.userName,jdbcType=VARCHAR},
-      header = #{record.header,jdbcType=INTEGER},
       account = #{record.account,jdbcType=INTEGER},
       token = #{record.token,jdbcType=VARCHAR},
-      login_time = #{record.loginTime,jdbcType=INTEGER}
+      login_time = #{record.loginTime,jdbcType=TIMESTAMP}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -201,9 +235,6 @@
       <if test="userName != null">
         user_name = #{userName,jdbcType=VARCHAR},
       </if>
-      <if test="header != null">
-        header = #{header,jdbcType=INTEGER},
-      </if>
       <if test="account != null">
         account = #{account,jdbcType=INTEGER},
       </if>
@@ -211,18 +242,29 @@
         token = #{token,jdbcType=VARCHAR},
       </if>
       <if test="loginTime != null">
-        login_time = #{loginTime,jdbcType=INTEGER},
+        login_time = #{loginTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="header != null">
+        header = #{header,jdbcType=LONGVARCHAR},
       </if>
     </set>
+    where open_id = #{openId,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="cn.whu.gugugu.generated.model.User">
+    update user
+    set user_name = #{userName,jdbcType=VARCHAR},
+      account = #{account,jdbcType=INTEGER},
+      token = #{token,jdbcType=VARCHAR},
+      login_time = #{loginTime,jdbcType=TIMESTAMP},
+      header = #{header,jdbcType=LONGVARCHAR}
     where open_id = #{openId,jdbcType=VARCHAR}
   </update>
   <update id="updateByPrimaryKey" parameterType="cn.whu.gugugu.generated.model.User">
     update user
     set user_name = #{userName,jdbcType=VARCHAR},
-      header = #{header,jdbcType=INTEGER},
       account = #{account,jdbcType=INTEGER},
       token = #{token,jdbcType=VARCHAR},
-      login_time = #{loginTime,jdbcType=INTEGER}
+      login_time = #{loginTime,jdbcType=TIMESTAMP}
     where open_id = #{openId,jdbcType=VARCHAR}
   </update>
 </mapper>
