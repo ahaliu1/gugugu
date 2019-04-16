@@ -42,9 +42,9 @@
         </javaClientGenerator>
 
         <!--对应数据库表名，多个表，请复制指定 -->
-        <table tableName="party"></table>
-        <table tableName="party_record"></table>
-        <table tableName="transaction"></table>
+        <!--<table tableName="party"></table>-->
+        <!--<table tableName="party_record"></table>-->
+        <!--<table tableName="transaction"></table>-->
         <table tableName="user"></table>
 
     </context>

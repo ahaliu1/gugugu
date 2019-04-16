@@ -364,63 +364,73 @@ public class UserExample {
             return (Criteria) this;
         }
 
-        public Criteria andSessionIsNull() {
-            addCriterion("session is null");
+        public Criteria andTokenIsNull() {
+            addCriterion("token is null");
             return (Criteria) this;
         }
 
-        public Criteria andSessionIsNotNull() {
-            addCriterion("session is not null");
+        public Criteria andTokenIsNotNull() {
+            addCriterion("token is not null");
             return (Criteria) this;
         }
 
-        public Criteria andSessionEqualTo(Integer value) {
-            addCriterion("session =", value, "session");
+        public Criteria andTokenEqualTo(String value) {
+            addCriterion("token =", value, "token");
             return (Criteria) this;
         }
 
-        public Criteria andSessionNotEqualTo(Integer value) {
-            addCriterion("session <>", value, "session");
+        public Criteria andTokenNotEqualTo(String value) {
+            addCriterion("token <>", value, "token");
             return (Criteria) this;
         }
 
-        public Criteria andSessionGreaterThan(Integer value) {
-            addCriterion("session >", value, "session");
+        public Criteria andTokenGreaterThan(String value) {
+            addCriterion("token >", value, "token");
             return (Criteria) this;
         }
 
-        public Criteria andSessionGreaterThanOrEqualTo(Integer value) {
-            addCriterion("session >=", value, "session");
+        public Criteria andTokenGreaterThanOrEqualTo(String value) {
+            addCriterion("token >=", value, "token");
             return (Criteria) this;
         }
 
-        public Criteria andSessionLessThan(Integer value) {
-            addCriterion("session <", value, "session");
+        public Criteria andTokenLessThan(String value) {
+            addCriterion("token <", value, "token");
             return (Criteria) this;
         }
 
-        public Criteria andSessionLessThanOrEqualTo(Integer value) {
-            addCriterion("session <=", value, "session");
+        public Criteria andTokenLessThanOrEqualTo(String value) {
+            addCriterion("token <=", value, "token");
             return (Criteria) this;
         }
 
-        public Criteria andSessionIn(List<Integer> values) {
-            addCriterion("session in", values, "session");
+        public Criteria andTokenLike(String value) {
+            addCriterion("token like", value, "token");
             return (Criteria) this;
         }
 
-        public Criteria andSessionNotIn(List<Integer> values) {
-            addCriterion("session not in", values, "session");
+        public Criteria andTokenNotLike(String value) {
+            addCriterion("token not like", value, "token");
             return (Criteria) this;
         }
 
-        public Criteria andSessionBetween(Integer value1, Integer value2) {
-            addCriterion("session between", value1, value2, "session");
+        public Criteria andTokenIn(List<String> values) {
+            addCriterion("token in", values, "token");
             return (Criteria) this;
         }
 
-        public Criteria andSessionNotBetween(Integer value1, Integer value2) {
-            addCriterion("session not between", value1, value2, "session");
+        public Criteria andTokenNotIn(List<String> values) {
+            addCriterion("token not in", values, "token");
+            return (Criteria) this;
+        }
+
+        public Criteria andTokenBetween(String value1, String value2) {
+            addCriterion("token between", value1, value2, "token");
+            return (Criteria) this;
+        }
+
+        public Criteria andTokenNotBetween(String value1, String value2) {
+            addCriterion("token not between", value1, value2, "token");
             return (Criteria) this;
         }
 
