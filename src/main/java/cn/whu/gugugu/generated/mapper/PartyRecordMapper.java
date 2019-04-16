@@ -4,7 +4,9 @@ import cn.whu.gugugu.generated.model.PartyRecord;
 import cn.whu.gugugu.generated.model.PartyRecordExample;
 import java.util.List;
 import org.apache.ibatis.annotations.Param;
+import org.springframework.stereotype.Repository;
 
+@Repository
 public interface PartyRecordMapper {
     long countByExample(PartyRecordExample example);
 
