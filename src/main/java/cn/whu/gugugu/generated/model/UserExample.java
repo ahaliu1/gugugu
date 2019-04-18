@@ -1,6 +1,7 @@
 package cn.whu.gugugu.generated.model;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class UserExample {
@@ -244,66 +245,6 @@ public class UserExample {
             return (Criteria) this;
         }
 
-        public Criteria andHeaderIsNull() {
-            addCriterion("header is null");
-            return (Criteria) this;
-        }
-
-        public Criteria andHeaderIsNotNull() {
-            addCriterion("header is not null");
-            return (Criteria) this;
-        }
-
-        public Criteria andHeaderEqualTo(Integer value) {
-            addCriterion("header =", value, "header");
-            return (Criteria) this;
-        }
-
-        public Criteria andHeaderNotEqualTo(Integer value) {
-            addCriterion("header <>", value, "header");
-            return (Criteria) this;
-        }
-
-        public Criteria andHeaderGreaterThan(Integer value) {
-            addCriterion("header >", value, "header");
-            return (Criteria) this;
-        }
-
-        public Criteria andHeaderGreaterThanOrEqualTo(Integer value) {
-            addCriterion("header >=", value, "header");
-            return (Criteria) this;
-        }
-
-        public Criteria andHeaderLessThan(Integer value) {
-            addCriterion("header <", value, "header");
-            return (Criteria) this;
-        }
-
-        public Criteria andHeaderLessThanOrEqualTo(Integer value) {
-            addCriterion("header <=", value, "header");
-            return (Criteria) this;
-        }
-
-        public Criteria andHeaderIn(List<Integer> values) {
-            addCriterion("header in", values, "header");
-            return (Criteria) this;
-        }
-
-        public Criteria andHeaderNotIn(List<Integer> values) {
-            addCriterion("header not in", values, "header");
-            return (Criteria) this;
-        }
-
-        public Criteria andHeaderBetween(Integer value1, Integer value2) {
-            addCriterion("header between", value1, value2, "header");
-            return (Criteria) this;
-        }
-
-        public Criteria andHeaderNotBetween(Integer value1, Integer value2) {
-            addCriterion("header not between", value1, value2, "header");
-            return (Criteria) this;
-        }
-
         public Criteria andAccountIsNull() {
             addCriterion("account is null");
             return (Criteria) this;
@@ -444,52 +385,52 @@ public class UserExample {
             return (Criteria) this;
         }
 
-        public Criteria andLoginTimeEqualTo(Integer value) {
+        public Criteria andLoginTimeEqualTo(Date value) {
             addCriterion("login_time =", value, "loginTime");
             return (Criteria) this;
         }
 
-        public Criteria andLoginTimeNotEqualTo(Integer value) {
+        public Criteria andLoginTimeNotEqualTo(Date value) {
             addCriterion("login_time <>", value, "loginTime");
             return (Criteria) this;
         }
 
-        public Criteria andLoginTimeGreaterThan(Integer value) {
+        public Criteria andLoginTimeGreaterThan(Date value) {
             addCriterion("login_time >", value, "loginTime");
             return (Criteria) this;
         }
 
-        public Criteria andLoginTimeGreaterThanOrEqualTo(Integer value) {
+        public Criteria andLoginTimeGreaterThanOrEqualTo(Date value) {
             addCriterion("login_time >=", value, "loginTime");
             return (Criteria) this;
         }
 
-        public Criteria andLoginTimeLessThan(Integer value) {
+        public Criteria andLoginTimeLessThan(Date value) {
             addCriterion("login_time <", value, "loginTime");
             return (Criteria) this;
         }
 
-        public Criteria andLoginTimeLessThanOrEqualTo(Integer value) {
+        public Criteria andLoginTimeLessThanOrEqualTo(Date value) {
             addCriterion("login_time <=", value, "loginTime");
             return (Criteria) this;
         }
 
-        public Criteria andLoginTimeIn(List<Integer> values) {
+        public Criteria andLoginTimeIn(List<Date> values) {
             addCriterion("login_time in", values, "loginTime");
             return (Criteria) this;
         }
 
-        public Criteria andLoginTimeNotIn(List<Integer> values) {
+        public Criteria andLoginTimeNotIn(List<Date> values) {
             addCriterion("login_time not in", values, "loginTime");
             return (Criteria) this;
         }
 
-        public Criteria andLoginTimeBetween(Integer value1, Integer value2) {
+        public Criteria andLoginTimeBetween(Date value1, Date value2) {
             addCriterion("login_time between", value1, value2, "loginTime");
             return (Criteria) this;
         }
 
-        public Criteria andLoginTimeNotBetween(Integer value1, Integer value2) {
+        public Criteria andLoginTimeNotBetween(Date value1, Date value2) {
             addCriterion("login_time not between", value1, value2, "loginTime");
             return (Criteria) this;
         }

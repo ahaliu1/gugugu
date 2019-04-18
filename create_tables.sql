@@ -1,3 +1,4 @@
+-- we don't know how to generate schema web_class_db (class Schema) :(
 create table transaction
 (
 	transation_id varchar(32) null,
@@ -13,26 +14,26 @@ create table user
 	open_id varchar(40) not null
 		primary key,
 	user_name varchar(20) null,
-	header int null,
-	account int null,
-	session int null,
-	login_time int null
+	header text null,
+	account int(64) null,
+	token varchar(32) null,
+	login_time timestamp null
 )
-comment 'Ö÷ÒªÓÃÓÚ±êÊ¶ºÍ¼ÇÂ¼ÓÃ»§»ù±¾ĞÅÏ¢£¬¾ßÌå¿´Î¢ĞÅµÇÂ½µÄÎ¢ĞÅ½Ó¿Ú' charset=utf8
+comment 'ä¸»è¦ç”¨äºæ ‡è¯†å’Œè®°å½•ç”¨æˆ·åŸºæœ¬ä¿¡æ¯ï¼Œå…·ä½“çœ‹å¾®ä¿¡ç™»é™†çš„å¾®ä¿¡æ¥å£' charset=utf8
 ;
 
 create table party
 (
 	party_id varchar(32) not null
 		primary key,
-	party_subject varchar(45) null comment '¾Û»áÖ÷Ìâ',
-	party_detail varchar(200) null comment '¾Û»áÏêÏ¸ĞÅÏ¢',
-	party_date timestamp null comment '¾Û»á¾ßÌåÈÕÆÚ',
-	deposit decimal(10,2) null comment 'Ñº½ğ',
-	latitude float null comment '¾Û»áµØµãÎ³¶È',
-	longtitude float null comment '¾Û»áµØµã¾­¶È',
-	originator varchar(40) null comment '·¢ÆğÕß',
-	total_sum decimal(10,2) null comment '×Ü½»Ç®Êı',
+	party_subject varchar(45) null comment 'èšä¼šä¸»é¢˜',
+	party_detail varchar(200) null comment 'èšä¼šè¯¦ç»†ä¿¡æ¯',
+	party_date timestamp null comment 'èšä¼šå…·ä½“æ—¥æœŸ',
+	deposit decimal(10,2) null comment 'æŠ¼é‡‘',
+	latitude float null comment 'èšä¼šåœ°ç‚¹çº¬åº¦',
+	longtitude float null comment 'èšä¼šåœ°ç‚¹ç»åº¦',
+	originator varchar(40) null comment 'å‘èµ·è€…',
+	total_sum decimal(10,2) null comment 'æ€»äº¤é’±æ•°',
 	participate_time timestamp null,
 	constraint user_org_id
 		foreign key (originator) references user (open_id)
@@ -50,7 +51,7 @@ create table party_record
 		primary key,
 	party_id varchar(32) not null,
 	user_id varchar(40) not null,
-	status enum('unfinished', 'finished') null comment '¼ÓÈëÎ´Íê³É£¬»î¶¯½áÊø',
+	status enum('unfinished', 'finished') null comment 'åŠ å…¥æœªå®Œæˆï¼Œæ´»åŠ¨ç»“æŸ',
 	constraint party_record_party_party_id_fk
 		foreign key (party_id) references party (party_id),
 	constraint party_record_user_open_id_fk
