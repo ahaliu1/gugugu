@@ -14,14 +14,9 @@ import org.springframework.web.bind.annotation.RestController;
 public class TokenController {
     TokenImpl token = new TokenService();
 
-//    @Autowired
-//    PartyMapper mapper;
-
     @RequestMapping(value = "/account/login", method = RequestMethod.POST)
     public String token(@RequestParam(value = "code") String code) {
-//        PartyExample example = new PartyExample();
-//        example.createCriteria().andDepositEqualTo(1);
-//        mapper.selectByExample(example);
+
         return token.getToken(token.getSession(code));
     }
 }

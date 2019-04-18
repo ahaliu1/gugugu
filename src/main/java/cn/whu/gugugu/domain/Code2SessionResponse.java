@@ -1,6 +1,6 @@
 package cn.whu.gugugu.domain;
 
-public class Code2SessionResponse {
+public class Code2SessionResponse extends BaseResponse {
     private String openid;
     private String session_key;
     private String unionid;

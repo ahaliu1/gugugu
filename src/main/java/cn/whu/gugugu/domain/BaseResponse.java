@@ -1,8 +1,13 @@
-package cn.whu.gugugu.commons;
+package cn.whu.gugugu.domain;
 
 public class BaseResponse {
     public String message;
-    public Object data;
+    public DataImpl data;
+
+    public BaseResponse(String message, DataImpl data) {
+        this.message = message;
+        this.data = data;
+    }
 
     public String getMessage() {
         return message;
@@ -12,11 +17,11 @@ public class BaseResponse {
         this.message = message;
     }
 
-    public Object getData() {
+    public DataImpl getData() {
         return data;
     }
 
-    public void setData(Object data) {
+    public void setData(DataImpl data) {
         this.data = data;
     }
 }
