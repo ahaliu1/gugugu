@@ -3,7 +3,7 @@ package cn.whu.gugugu.service;
 import cn.whu.gugugu.GuguguConfig;
 import cn.whu.gugugu.domain.Code2SessionResponse;
 import cn.whu.gugugu.repository.LoginRepository;
-import cn.whu.gugugu.service.impl.TokenImpl;
+import cn.whu.gugugu.service.impl.AccountImpl;
 import cn.whu.gugugu.utils.ReadData;
 import com.google.gson.Gson;
 import org.springframework.stereotype.Service;
@@ -13,7 +13,7 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 
 @Service
-public class TokenService implements TokenImpl {
+public class AccountService implements AccountImpl {
     LoginRepository loginRepository = new LoginRepository();
 
     /**

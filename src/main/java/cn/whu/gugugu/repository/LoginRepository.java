@@ -7,6 +7,7 @@ import cn.whu.gugugu.generated.model.User;
 import cn.whu.gugugu.generated.model.UserExample;
 import cn.whu.gugugu.utils.MD5;
 import cn.whu.gugugu.utils.ReadData;
+import cn.whu.gugugu.utils.UID;
 import com.google.gson.Gson;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -49,7 +50,7 @@ public class LoginRepository {
         //过时
         Date date = new Date();
         if (user.getLoginTime().getTime() + 86400000 > date.getTime()) {
-            String token = UUID.randomUUID().toString().replaceAll("-","");
+            String token = UID.getUUID();
             user.setLoginTime(date);
             user.setToken(token);
             mapper.updateByPrimaryKeySelective(user);

@@ -1,6 +1,6 @@
 package cn.whu.gugugu.service.impl;
 
-public interface TokenImpl {
+public interface AccountImpl {
     /**
      * 将code转换为session，需要通过微信接口
      * @param code

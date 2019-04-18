@@ -3,8 +3,8 @@ package cn.whu.gugugu.controller;
 import cn.whu.gugugu.commons.AuthenticatedController;
 import cn.whu.gugugu.domain.BaseResponse;
 import cn.whu.gugugu.domain.TokenResponse;
-import cn.whu.gugugu.service.TokenService;
-import cn.whu.gugugu.service.impl.TokenImpl;
+import cn.whu.gugugu.service.AccountService;
+import cn.whu.gugugu.service.impl.AccountImpl;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 public class LoginController extends AuthenticatedController {
-    TokenImpl tokenService = new TokenService();
+    AccountImpl tokenService = new AccountService();
 
     /**
      * -1	系统繁忙，此时请开发者稍候再试
