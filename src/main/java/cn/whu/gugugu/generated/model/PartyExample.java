@@ -1,6 +1,5 @@
 package cn.whu.gugugu.generated.model;
 
-import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -386,52 +385,52 @@ public class PartyExample {
             return (Criteria) this;
         }
 
-        public Criteria andDepositEqualTo(BigDecimal value) {
+        public Criteria andDepositEqualTo(Integer value) {
             addCriterion("deposit =", value, "deposit");
             return (Criteria) this;
         }
 
-        public Criteria andDepositNotEqualTo(BigDecimal value) {
+        public Criteria andDepositNotEqualTo(Integer value) {
             addCriterion("deposit <>", value, "deposit");
             return (Criteria) this;
         }
 
-        public Criteria andDepositGreaterThan(BigDecimal value) {
+        public Criteria andDepositGreaterThan(Integer value) {
             addCriterion("deposit >", value, "deposit");
             return (Criteria) this;
         }
 
-        public Criteria andDepositGreaterThanOrEqualTo(BigDecimal value) {
+        public Criteria andDepositGreaterThanOrEqualTo(Integer value) {
             addCriterion("deposit >=", value, "deposit");
             return (Criteria) this;
         }
 
-        public Criteria andDepositLessThan(BigDecimal value) {
+        public Criteria andDepositLessThan(Integer value) {
             addCriterion("deposit <", value, "deposit");
             return (Criteria) this;
         }
 
-        public Criteria andDepositLessThanOrEqualTo(BigDecimal value) {
+        public Criteria andDepositLessThanOrEqualTo(Integer value) {
             addCriterion("deposit <=", value, "deposit");
             return (Criteria) this;
         }
 
-        public Criteria andDepositIn(List<BigDecimal> values) {
+        public Criteria andDepositIn(List<Integer> values) {
             addCriterion("deposit in", values, "deposit");
             return (Criteria) this;
         }
 
-        public Criteria andDepositNotIn(List<BigDecimal> values) {
+        public Criteria andDepositNotIn(List<Integer> values) {
             addCriterion("deposit not in", values, "deposit");
             return (Criteria) this;
         }
 
-        public Criteria andDepositBetween(BigDecimal value1, BigDecimal value2) {
+        public Criteria andDepositBetween(Integer value1, Integer value2) {
             addCriterion("deposit between", value1, value2, "deposit");
             return (Criteria) this;
         }
 
-        public Criteria andDepositNotBetween(BigDecimal value1, BigDecimal value2) {
+        public Criteria andDepositNotBetween(Integer value1, Integer value2) {
             addCriterion("deposit not between", value1, value2, "deposit");
             return (Criteria) this;
         }
@@ -636,52 +635,52 @@ public class PartyExample {
             return (Criteria) this;
         }
 
-        public Criteria andTotalSumEqualTo(BigDecimal value) {
+        public Criteria andTotalSumEqualTo(Integer value) {
             addCriterion("total_sum =", value, "totalSum");
             return (Criteria) this;
         }
 
-        public Criteria andTotalSumNotEqualTo(BigDecimal value) {
+        public Criteria andTotalSumNotEqualTo(Integer value) {
             addCriterion("total_sum <>", value, "totalSum");
             return (Criteria) this;
         }
 
-        public Criteria andTotalSumGreaterThan(BigDecimal value) {
+        public Criteria andTotalSumGreaterThan(Integer value) {
             addCriterion("total_sum >", value, "totalSum");
             return (Criteria) this;
         }
 
-        public Criteria andTotalSumGreaterThanOrEqualTo(BigDecimal value) {
+        public Criteria andTotalSumGreaterThanOrEqualTo(Integer value) {
             addCriterion("total_sum >=", value, "totalSum");
             return (Criteria) this;
         }
 
-        public Criteria andTotalSumLessThan(BigDecimal value) {
+        public Criteria andTotalSumLessThan(Integer value) {
             addCriterion("total_sum <", value, "totalSum");
             return (Criteria) this;
         }
 
-        public Criteria andTotalSumLessThanOrEqualTo(BigDecimal value) {
+        public Criteria andTotalSumLessThanOrEqualTo(Integer value) {
             addCriterion("total_sum <=", value, "totalSum");
             return (Criteria) this;
         }
 
-        public Criteria andTotalSumIn(List<BigDecimal> values) {
+        public Criteria andTotalSumIn(List<Integer> values) {
             addCriterion("total_sum in", values, "totalSum");
             return (Criteria) this;
         }
 
-        public Criteria andTotalSumNotIn(List<BigDecimal> values) {
+        public Criteria andTotalSumNotIn(List<Integer> values) {
             addCriterion("total_sum not in", values, "totalSum");
             return (Criteria) this;
         }
 
-        public Criteria andTotalSumBetween(BigDecimal value1, BigDecimal value2) {
+        public Criteria andTotalSumBetween(Integer value1, Integer value2) {
             addCriterion("total_sum between", value1, value2, "totalSum");
             return (Criteria) this;
         }
 
-        public Criteria andTotalSumNotBetween(BigDecimal value1, BigDecimal value2) {
+        public Criteria andTotalSumNotBetween(Integer value1, Integer value2) {
             addCriterion("total_sum not between", value1, value2, "totalSum");
             return (Criteria) this;
         }
@@ -743,6 +742,66 @@ public class PartyExample {
 
         public Criteria andParticipateTimeNotBetween(Date value1, Date value2) {
             addCriterion("participate_time not between", value1, value2, "participateTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andModeIsNull() {
+            addCriterion("mode is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andModeIsNotNull() {
+            addCriterion("mode is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andModeEqualTo(Integer value) {
+            addCriterion("mode =", value, "mode");
+            return (Criteria) this;
+        }
+
+        public Criteria andModeNotEqualTo(Integer value) {
+            addCriterion("mode <>", value, "mode");
+            return (Criteria) this;
+        }
+
+        public Criteria andModeGreaterThan(Integer value) {
+            addCriterion("mode >", value, "mode");
+            return (Criteria) this;
+        }
+
+        public Criteria andModeGreaterThanOrEqualTo(Integer value) {
+            addCriterion("mode >=", value, "mode");
+            return (Criteria) this;
+        }
+
+        public Criteria andModeLessThan(Integer value) {
+            addCriterion("mode <", value, "mode");
+            return (Criteria) this;
+        }
+
+        public Criteria andModeLessThanOrEqualTo(Integer value) {
+            addCriterion("mode <=", value, "mode");
+            return (Criteria) this;
+        }
+
+        public Criteria andModeIn(List<Integer> values) {
+            addCriterion("mode in", values, "mode");
+            return (Criteria) this;
+        }
+
+        public Criteria andModeNotIn(List<Integer> values) {
+            addCriterion("mode not in", values, "mode");
+            return (Criteria) this;
+        }
+
+        public Criteria andModeBetween(Integer value1, Integer value2) {
+            addCriterion("mode between", value1, value2, "mode");
+            return (Criteria) this;
+        }
+
+        public Criteria andModeNotBetween(Integer value1, Integer value2) {
+            addCriterion("mode not between", value1, value2, "mode");
             return (Criteria) this;
         }
     }
