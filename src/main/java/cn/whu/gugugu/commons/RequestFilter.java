@@ -81,7 +81,6 @@ public class RequestFilter implements Filter {
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
-
             }
         }
     }

@@ -11,13 +11,10 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 public class UserInfoController extends AuthenticatedController {
-    @Autowired
-    UserMapper mapper;
 
     @RequestMapping("/account/login")
-    public User getUserInfo() {
+    public BaseResponse getUserInfo() {
         User user = this.getRequestedUser();
-        BaseResponse baseResponse = new BaseResponse("ok", new UserInfoResponse());
-        return baseResponse;
+        return new BaseResponse("ok", new UserInfoResponse(user.getUserName(), user.getHeader(), user.getAccount()));
     }
 }
