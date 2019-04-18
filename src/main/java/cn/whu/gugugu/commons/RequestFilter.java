@@ -33,14 +33,14 @@ public class RequestFilter implements Filter {
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
         HttpServletRequest request = (HttpServletRequest) servletRequest;
         UserExample example = new UserExample();
-        example.createCriteria().andTokenEqualTo(request.getHeader("token"));
+        example.createCriteria().andTokenEqualTo(request.getHeaders("token").toString());
         List<User> userList = mapper.selectByExample(example);
         RequestUserWrapper requestUserWrapper = new RequestUserWrapper(request);
         if (userList.size() != 0) {
             User user = userList.get(0);
             Calendar calendar = Calendar.getInstance();
             long time = calendar.getTimeInMillis();
-            if (time > user.getLoginTime() + 86400000) {
+            if (time > user.getLoginTime().getTime() + 86400000) {
                 writeError(servletResponse.getOutputStream(), "token expired");
                 return;
             } else {
