@@ -105,73 +105,73 @@ public class TransactionExample {
             criteria.add(new Criterion(condition, value1, value2));
         }
 
-        public Criteria andTransationIdIsNull() {
-            addCriterion("transation_id is null");
+        public Criteria andTransactionIdIsNull() {
+            addCriterion("transaction_id is null");
             return (Criteria) this;
         }
 
-        public Criteria andTransationIdIsNotNull() {
-            addCriterion("transation_id is not null");
+        public Criteria andTransactionIdIsNotNull() {
+            addCriterion("transaction_id is not null");
             return (Criteria) this;
         }
 
-        public Criteria andTransationIdEqualTo(String value) {
-            addCriterion("transation_id =", value, "transationId");
+        public Criteria andTransactionIdEqualTo(String value) {
+            addCriterion("transaction_id =", value, "transactionId");
             return (Criteria) this;
         }
 
-        public Criteria andTransationIdNotEqualTo(String value) {
-            addCriterion("transation_id <>", value, "transationId");
+        public Criteria andTransactionIdNotEqualTo(String value) {
+            addCriterion("transaction_id <>", value, "transactionId");
             return (Criteria) this;
         }
 
-        public Criteria andTransationIdGreaterThan(String value) {
-            addCriterion("transation_id >", value, "transationId");
+        public Criteria andTransactionIdGreaterThan(String value) {
+            addCriterion("transaction_id >", value, "transactionId");
             return (Criteria) this;
         }
 
-        public Criteria andTransationIdGreaterThanOrEqualTo(String value) {
-            addCriterion("transation_id >=", value, "transationId");
+        public Criteria andTransactionIdGreaterThanOrEqualTo(String value) {
+            addCriterion("transaction_id >=", value, "transactionId");
             return (Criteria) this;
         }
 
-        public Criteria andTransationIdLessThan(String value) {
-            addCriterion("transation_id <", value, "transationId");
+        public Criteria andTransactionIdLessThan(String value) {
+            addCriterion("transaction_id <", value, "transactionId");
             return (Criteria) this;
         }
 
-        public Criteria andTransationIdLessThanOrEqualTo(String value) {
-            addCriterion("transation_id <=", value, "transationId");
+        public Criteria andTransactionIdLessThanOrEqualTo(String value) {
+            addCriterion("transaction_id <=", value, "transactionId");
             return (Criteria) this;
         }
 
-        public Criteria andTransationIdLike(String value) {
-            addCriterion("transation_id like", value, "transationId");
+        public Criteria andTransactionIdLike(String value) {
+            addCriterion("transaction_id like", value, "transactionId");
             return (Criteria) this;
         }
 
-        public Criteria andTransationIdNotLike(String value) {
-            addCriterion("transation_id not like", value, "transationId");
+        public Criteria andTransactionIdNotLike(String value) {
+            addCriterion("transaction_id not like", value, "transactionId");
             return (Criteria) this;
         }
 
-        public Criteria andTransationIdIn(List<String> values) {
-            addCriterion("transation_id in", values, "transationId");
+        public Criteria andTransactionIdIn(List<String> values) {
+            addCriterion("transaction_id in", values, "transactionId");
             return (Criteria) this;
         }
 
-        public Criteria andTransationIdNotIn(List<String> values) {
-            addCriterion("transation_id not in", values, "transationId");
+        public Criteria andTransactionIdNotIn(List<String> values) {
+            addCriterion("transaction_id not in", values, "transactionId");
             return (Criteria) this;
         }
 
-        public Criteria andTransationIdBetween(String value1, String value2) {
-            addCriterion("transation_id between", value1, value2, "transationId");
+        public Criteria andTransactionIdBetween(String value1, String value2) {
+            addCriterion("transaction_id between", value1, value2, "transactionId");
             return (Criteria) this;
         }
 
-        public Criteria andTransationIdNotBetween(String value1, String value2) {
-            addCriterion("transation_id not between", value1, value2, "transationId");
+        public Criteria andTransactionIdNotBetween(String value1, String value2) {
+            addCriterion("transaction_id not between", value1, value2, "transactionId");
             return (Criteria) this;
         }
 
