@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="cn.whu.gugugu.generated.mapper.TransactionMapper">
   <resultMap id="BaseResultMap" type="cn.whu.gugugu.generated.model.Transaction">
-    <result column="transation_id" jdbcType="VARCHAR" property="transationId" />
+    <result column="transaction_id" jdbcType="VARCHAR" property="transactionId" />
     <result column="party_id" jdbcType="VARCHAR" property="partyId" />
     <result column="user_id" jdbcType="VARCHAR" property="userId" />
     <result column="money" jdbcType="INTEGER" property="money" />
@@ -67,7 +67,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    transation_id, party_id, user_id, money, payment_time
+    transaction_id, party_id, user_id, money, payment_time
   </sql>
   <select id="selectByExample" parameterType="cn.whu.gugugu.generated.model.TransactionExample" resultMap="BaseResultMap">
     select
@@ -90,16 +90,16 @@
     </if>
   </delete>
   <insert id="insert" parameterType="cn.whu.gugugu.generated.model.Transaction">
-    insert into transaction (transation_id, party_id, user_id, 
+    insert into transaction (transaction_id, party_id, user_id, 
       money, payment_time)
-    values (#{transationId,jdbcType=VARCHAR}, #{partyId,jdbcType=VARCHAR}, #{userId,jdbcType=VARCHAR}, 
+    values (#{transactionId,jdbcType=VARCHAR}, #{partyId,jdbcType=VARCHAR}, #{userId,jdbcType=VARCHAR}, 
       #{money,jdbcType=INTEGER}, #{paymentTime,jdbcType=TIMESTAMP})
   </insert>
   <insert id="insertSelective" parameterType="cn.whu.gugugu.generated.model.Transaction">
     insert into transaction
     <trim prefix="(" suffix=")" suffixOverrides=",">
-      <if test="transationId != null">
-        transation_id,
+      <if test="transactionId != null">
+        transaction_id,
       </if>
       <if test="partyId != null">
         party_id,
@@ -115,8 +115,8 @@
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
-      <if test="transationId != null">
-        #{transationId,jdbcType=VARCHAR},
+      <if test="transactionId != null">
+        #{transactionId,jdbcType=VARCHAR},
       </if>
       <if test="partyId != null">
         #{partyId,jdbcType=VARCHAR},
@@ -141,8 +141,8 @@
   <update id="updateByExampleSelective" parameterType="map">
     update transaction
     <set>
-      <if test="record.transationId != null">
-        transation_id = #{record.transationId,jdbcType=VARCHAR},
+      <if test="record.transactionId != null">
+        transaction_id = #{record.transactionId,jdbcType=VARCHAR},
       </if>
       <if test="record.partyId != null">
         party_id = #{record.partyId,jdbcType=VARCHAR},
@@ -163,7 +163,7 @@
   </update>
   <update id="updateByExample" parameterType="map">
     update transaction
-    set transation_id = #{record.transationId,jdbcType=VARCHAR},
+    set transaction_id = #{record.transactionId,jdbcType=VARCHAR},
       party_id = #{record.partyId,jdbcType=VARCHAR},
       user_id = #{record.userId,jdbcType=VARCHAR},
       money = #{record.money,jdbcType=INTEGER},

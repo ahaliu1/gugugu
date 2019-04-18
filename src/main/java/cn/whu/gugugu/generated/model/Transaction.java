@@ -3,7 +3,7 @@ package cn.whu.gugugu.generated.model;
 import java.util.Date;
 
 public class Transaction {
-    private String transationId;
+    private String transactionId;
 
     private String partyId;
 
@@ -13,12 +13,12 @@ public class Transaction {
 
     private Date paymentTime;
 
-    public String getTransationId() {
-        return transationId;
+    public String getTransactionId() {
+        return transactionId;
     }
 
-    public void setTransationId(String transationId) {
-        this.transationId = transationId == null ? null : transationId.trim();
+    public void setTransactionId(String transactionId) {
+        this.transactionId = transactionId == null ? null : transactionId.trim();
     }
 
     public String getPartyId() {
