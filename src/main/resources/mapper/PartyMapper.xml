@@ -6,12 +6,13 @@
     <result column="party_subject" jdbcType="VARCHAR" property="partySubject" />
     <result column="party_detail" jdbcType="VARCHAR" property="partyDetail" />
     <result column="party_date" jdbcType="TIMESTAMP" property="partyDate" />
-    <result column="deposit" jdbcType="DECIMAL" property="deposit" />
+    <result column="deposit" jdbcType="INTEGER" property="deposit" />
     <result column="latitude" jdbcType="REAL" property="latitude" />
     <result column="longtitude" jdbcType="REAL" property="longtitude" />
     <result column="originator" jdbcType="VARCHAR" property="originator" />
-    <result column="total_sum" jdbcType="DECIMAL" property="totalSum" />
+    <result column="total_sum" jdbcType="INTEGER" property="totalSum" />
     <result column="participate_time" jdbcType="TIMESTAMP" property="participateTime" />
+    <result column="mode" jdbcType="INTEGER" property="mode" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -73,7 +74,7 @@
   </sql>
   <sql id="Base_Column_List">
     party_id, party_subject, party_detail, party_date, deposit, latitude, longtitude, 
-    originator, total_sum, participate_time
+    originator, total_sum, participate_time, mode
   </sql>
   <select id="selectByExample" parameterType="cn.whu.gugugu.generated.model.PartyExample" resultMap="BaseResultMap">
     select
@@ -109,11 +110,11 @@
     insert into party (party_id, party_subject, party_detail, 
       party_date, deposit, latitude, 
       longtitude, originator, total_sum, 
-      participate_time)
+      participate_time, mode)
     values (#{partyId,jdbcType=VARCHAR}, #{partySubject,jdbcType=VARCHAR}, #{partyDetail,jdbcType=VARCHAR}, 
-      #{partyDate,jdbcType=TIMESTAMP}, #{deposit,jdbcType=DECIMAL}, #{latitude,jdbcType=REAL}, 
-      #{longtitude,jdbcType=REAL}, #{originator,jdbcType=VARCHAR}, #{totalSum,jdbcType=DECIMAL}, 
-      #{participateTime,jdbcType=TIMESTAMP})
+      #{partyDate,jdbcType=TIMESTAMP}, #{deposit,jdbcType=INTEGER}, #{latitude,jdbcType=REAL}, 
+      #{longtitude,jdbcType=REAL}, #{originator,jdbcType=VARCHAR}, #{totalSum,jdbcType=INTEGER}, 
+      #{participateTime,jdbcType=TIMESTAMP}, #{mode,jdbcType=INTEGER})
   </insert>
   <insert id="insertSelective" parameterType="cn.whu.gugugu.generated.model.Party">
     insert into party
@@ -148,6 +149,9 @@
       <if test="participateTime != null">
         participate_time,
       </if>
+      <if test="mode != null">
+        mode,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="partyId != null">
@@ -163,7 +167,7 @@
         #{partyDate,jdbcType=TIMESTAMP},
       </if>
       <if test="deposit != null">
-        #{deposit,jdbcType=DECIMAL},
+        #{deposit,jdbcType=INTEGER},
       </if>
       <if test="latitude != null">
         #{latitude,jdbcType=REAL},
@@ -175,10 +179,13 @@
         #{originator,jdbcType=VARCHAR},
       </if>
       <if test="totalSum != null">
-        #{totalSum,jdbcType=DECIMAL},
+        #{totalSum,jdbcType=INTEGER},
       </if>
       <if test="participateTime != null">
         #{participateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="mode != null">
+        #{mode,jdbcType=INTEGER},
       </if>
     </trim>
   </insert>
@@ -204,7 +211,7 @@
         party_date = #{record.partyDate,jdbcType=TIMESTAMP},
       </if>
       <if test="record.deposit != null">
-        deposit = #{record.deposit,jdbcType=DECIMAL},
+        deposit = #{record.deposit,jdbcType=INTEGER},
       </if>
       <if test="record.latitude != null">
         latitude = #{record.latitude,jdbcType=REAL},
@@ -216,10 +223,13 @@
         originator = #{record.originator,jdbcType=VARCHAR},
       </if>
       <if test="record.totalSum != null">
-        total_sum = #{record.totalSum,jdbcType=DECIMAL},
+        total_sum = #{record.totalSum,jdbcType=INTEGER},
       </if>
       <if test="record.participateTime != null">
         participate_time = #{record.participateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.mode != null">
+        mode = #{record.mode,jdbcType=INTEGER},
       </if>
     </set>
     <if test="_parameter != null">
@@ -232,12 +242,13 @@
       party_subject = #{record.partySubject,jdbcType=VARCHAR},
       party_detail = #{record.partyDetail,jdbcType=VARCHAR},
       party_date = #{record.partyDate,jdbcType=TIMESTAMP},
-      deposit = #{record.deposit,jdbcType=DECIMAL},
+      deposit = #{record.deposit,jdbcType=INTEGER},
       latitude = #{record.latitude,jdbcType=REAL},
       longtitude = #{record.longtitude,jdbcType=REAL},
       originator = #{record.originator,jdbcType=VARCHAR},
-      total_sum = #{record.totalSum,jdbcType=DECIMAL},
-      participate_time = #{record.participateTime,jdbcType=TIMESTAMP}
+      total_sum = #{record.totalSum,jdbcType=INTEGER},
+      participate_time = #{record.participateTime,jdbcType=TIMESTAMP},
+      mode = #{record.mode,jdbcType=INTEGER}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -255,7 +266,7 @@
         party_date = #{partyDate,jdbcType=TIMESTAMP},
       </if>
       <if test="deposit != null">
-        deposit = #{deposit,jdbcType=DECIMAL},
+        deposit = #{deposit,jdbcType=INTEGER},
       </if>
       <if test="latitude != null">
         latitude = #{latitude,jdbcType=REAL},
@@ -267,10 +278,13 @@
         originator = #{originator,jdbcType=VARCHAR},
       </if>
       <if test="totalSum != null">
-        total_sum = #{totalSum,jdbcType=DECIMAL},
+        total_sum = #{totalSum,jdbcType=INTEGER},
       </if>
       <if test="participateTime != null">
         participate_time = #{participateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="mode != null">
+        mode = #{mode,jdbcType=INTEGER},
       </if>
     </set>
     where party_id = #{partyId,jdbcType=VARCHAR}
@@ -280,12 +294,13 @@
     set party_subject = #{partySubject,jdbcType=VARCHAR},
       party_detail = #{partyDetail,jdbcType=VARCHAR},
       party_date = #{partyDate,jdbcType=TIMESTAMP},
-      deposit = #{deposit,jdbcType=DECIMAL},
+      deposit = #{deposit,jdbcType=INTEGER},
       latitude = #{latitude,jdbcType=REAL},
       longtitude = #{longtitude,jdbcType=REAL},
       originator = #{originator,jdbcType=VARCHAR},
-      total_sum = #{totalSum,jdbcType=DECIMAL},
-      participate_time = #{participateTime,jdbcType=TIMESTAMP}
+      total_sum = #{totalSum,jdbcType=INTEGER},
+      participate_time = #{participateTime,jdbcType=TIMESTAMP},
+      mode = #{mode,jdbcType=INTEGER}
     where party_id = #{partyId,jdbcType=VARCHAR}
   </update>
 </mapper>

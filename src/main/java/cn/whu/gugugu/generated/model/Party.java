@@ -1,6 +1,5 @@
 package cn.whu.gugugu.generated.model;
 
-import java.math.BigDecimal;
 import java.util.Date;
 
 public class Party {
@@ -12,7 +11,7 @@ public class Party {
 
     private Date partyDate;
 
-    private BigDecimal deposit;
+    private Integer deposit;
 
     private Float latitude;
 
@@ -20,9 +19,11 @@ public class Party {
 
     private String originator;
 
-    private BigDecimal totalSum;
+    private Integer totalSum;
 
     private Date participateTime;
+
+    private Integer mode;
 
     public String getPartyId() {
         return partyId;
@@ -56,11 +57,11 @@ public class Party {
         this.partyDate = partyDate;
     }
 
-    public BigDecimal getDeposit() {
+    public Integer getDeposit() {
         return deposit;
     }
 
-    public void setDeposit(BigDecimal deposit) {
+    public void setDeposit(Integer deposit) {
         this.deposit = deposit;
     }
 
@@ -88,11 +89,11 @@ public class Party {
         this.originator = originator == null ? null : originator.trim();
     }
 
-    public BigDecimal getTotalSum() {
+    public Integer getTotalSum() {
         return totalSum;
     }
 
-    public void setTotalSum(BigDecimal totalSum) {
+    public void setTotalSum(Integer totalSum) {
         this.totalSum = totalSum;
     }
 
@@ -102,5 +103,13 @@ public class Party {
 
     public void setParticipateTime(Date participateTime) {
         this.participateTime = participateTime;
+    }
+
+    public Integer getMode() {
+        return mode;
+    }
+
+    public void setMode(Integer mode) {
+        this.mode = mode;
     }
 }
