@@ -6,13 +6,13 @@ import cn.whu.gugugu.domain.PartyIdResponse;
 import cn.whu.gugugu.generated.model.Party;
 import cn.whu.gugugu.service.PartyService;
 import cn.whu.gugugu.service.impl.PartyImpl;
+import cn.whu.gugugu.utils.FixedPointNumber;
 import cn.whu.gugugu.utils.UID;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.math.BigDecimal;
 import java.util.Date;
 
 @RestController
@@ -42,7 +42,7 @@ public class SponsorController extends AuthenticatedController {
         Party party = new Party();
         party.setPartySubject(name);
         party.setPartyDetail(detail);
-        party.setDeposit(new BigDecimal(fee));
+        party.setDeposit(new FixedPointNumber(fee).getStorageValue());
         party.setParticipateTime(new Date(time));
         party.setLatitude((float) latitude);
         party.setLongtitude((float) longtitude);
