@@ -23,7 +23,7 @@ public class GuguguApplicationTests {
 
         User a = new User();
         a.setOpenId("12");
-        userMapper.insert(a);
+        User user = userMapper.selectByPrimaryKey("11");
     }
 
 }
