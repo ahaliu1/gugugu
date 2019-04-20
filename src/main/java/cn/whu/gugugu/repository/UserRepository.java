@@ -22,7 +22,7 @@ import java.util.Date;
 import java.util.UUID;
 
 @Repository
-public class LoginRepository {
+public class UserRepository {
     @Autowired
     UserMapper mapper;
 
@@ -56,5 +56,13 @@ public class LoginRepository {
             mapper.updateByPrimaryKeySelective(user);
         }
         return user.getToken();
+    }
+
+    public void updateUser(User user) {
+        mapper.updateByPrimaryKeySelective(user);
+    }
+
+    public User getUser(String userId) {
+        return mapper.selectByPrimaryKey(userId);
     }
 }

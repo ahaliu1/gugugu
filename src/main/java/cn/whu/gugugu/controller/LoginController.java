@@ -3,8 +3,8 @@ package cn.whu.gugugu.controller;
 import cn.whu.gugugu.commons.AuthenticatedController;
 import cn.whu.gugugu.domain.BaseResponse;
 import cn.whu.gugugu.domain.TokenResponse;
-import cn.whu.gugugu.service.AccountService;
-import cn.whu.gugugu.service.impl.AccountImpl;
+import cn.whu.gugugu.service.LoginService;
+import cn.whu.gugugu.service.impl.LoginImpl;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 public class LoginController extends AuthenticatedController {
-    AccountImpl tokenService = new AccountService();
+    LoginImpl tokenService = new LoginService();
 
     /**
      * -1	系统繁忙，此时请开发者稍候再试
@@ -35,17 +35,17 @@ public class LoginController extends AuthenticatedController {
                 baseResponse = new BaseResponse("ok", new TokenResponse(token));
                 break;
             case "-1":
-                baseResponse = new BaseResponse("system busy", null);
+                baseResponse = new BaseResponse("system busy");
                 break;
             case "40029":
-                baseResponse = new BaseResponse("invalid code", null);
+                baseResponse = new BaseResponse("invalid code");
                 break;
             case "45011":
-                baseResponse = new BaseResponse("login too frequent", null);
+                baseResponse = new BaseResponse("login too frequent");
                 break;
             case "-2":
             default:
-                baseResponse = new BaseResponse("system error", null);
+                baseResponse = new BaseResponse("system error");
                 break;
         }
         return baseResponse;

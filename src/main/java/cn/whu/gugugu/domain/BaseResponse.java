@@ -4,6 +4,10 @@ public class BaseResponse {
     public String message;
     public DataImpl data;
 
+    public BaseResponse(String message) {
+        this(message, null);
+    }
+
     public BaseResponse(String message, DataImpl data) {
         this.message = message;
         this.data = data;

@@ -2,8 +2,12 @@ package cn.whu.gugugu.controller;
 
 import cn.whu.gugugu.commons.AuthenticatedController;
 import cn.whu.gugugu.domain.BaseResponse;
+import cn.whu.gugugu.domain.PartyBasicInfoResponse;
 import cn.whu.gugugu.domain.PartyIdResponse;
 import cn.whu.gugugu.generated.model.Party;
+import cn.whu.gugugu.generated.model.PartyRecord;
+import cn.whu.gugugu.generated.model.Transaction;
+import cn.whu.gugugu.generated.model.User;
 import cn.whu.gugugu.service.PartyService;
 import cn.whu.gugugu.service.impl.PartyImpl;
 import cn.whu.gugugu.utils.FixedPointNumber;
@@ -14,12 +18,14 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.Date;
+import java.util.regex.Pattern;
 
 @RestController
 public class SponsorController extends AuthenticatedController {
     PartyImpl partyService = new PartyService();
 
     /**
+     * 创建聚会
      * @param name       聚会名称
      * @param fee        每人的积分
      * @param time       集合时间
@@ -36,28 +42,152 @@ public class SponsorController extends AuthenticatedController {
                                     @RequestParam(value = "latitude") double latitude,
                                     @RequestParam(value = "longtitude") double longtitude,
                                     @RequestParam(value = "party_id") String partyId) {
-        //todo 各种判定，然后返回错误信息
+        User user = this.getRequestedUser();
+        int deposit = new FixedPointNumber(fee).getStorageValue();
 
+        //余额不足
+        if (user.getAccount() < deposit) {
+            return new BaseResponse("score not enough");
+        }
+
+        //聚会名字过长
+        if (name.length() > 45) {
+            return new BaseResponse("name overlength");
+        }
+
+        //详细信息过长
+        if (detail.length() > 200) {
+            return new BaseResponse("detail overlength");
+        }
+
+        //经度不合法。最大是180° 最小是0°
+        if (0.0 > longtitude || 180.0 < longtitude) {
+            return new BaseResponse("invalid longtitude");
+        }
+
+        //纬度不合法。最大是90° 最小是0°
+        if (latitude > 90 || latitude < 0) {
+            return new BaseResponse("invalid latitude");
+        }
+
+        //金额数字格式无效。负数，不是小数后两位
+        if (deposit < 0 || !Pattern.matches("^(([1-9]{1}\\d*)|([0]{1}))(\\.(\\d){2})?$", fee)) {
+            return new BaseResponse("invalid fee");
+        }
 
         Party party = new Party();
         party.setPartySubject(name);
         party.setPartyDetail(detail);
-        party.setDeposit(new FixedPointNumber(fee).getStorageValue());
+        party.setPartyDate(new Date(time));
+        party.setDeposit(deposit);
         party.setParticipateTime(new Date(time));
         party.setLatitude((float) latitude);
         party.setLongtitude((float) longtitude);
-        party.setOriginator(this.getRequestedUser().getOpenId());
+        party.setOriginator(user.getOpenId());
         party.setPartyId(partyId);
+        party.setTotalSum(deposit);
 
         if (partyId == null || partyId.isEmpty()) {
             //新建
-            party.setPartyId(UID.getUUID());
+            String id = UID.getUUID();
+
+            //party
+            party.setPartyId(id);
             partyService.createParty(party);
+
+            //party record
+            PartyRecord record = new PartyRecord();
+            record.setPartyId(id);
+            record.setRecordId(UID.getUUID());
+            //todo
+            record.setStatus("unfinished");
+            record.setUserId(user.getOpenId());
+            partyService.createRecord(record);
+
+            //transaction
+            Transaction transaction = new Transaction();
+            transaction.setTransactionId(UID.getUUID());
+            transaction.setPartyId(id);
+            transaction.setUserId(user.getOpenId());
+            transaction.setMoney(deposit);
+            transaction.setPaymentTime(new Date());
+            partyService.createTransaction(transaction);
+
+            //扣钱
+
+            partyService.pay(user.getOpenId(), partyId, deposit);
         } else {
+            //更新
             party.setDeposit(null);
             partyService.updateParty(party);
         }
 
         return new BaseResponse("ok", new PartyIdResponse(party.getPartyId()));
+    }
+
+    @RequestMapping(value = "/party/pay?party_id", method = RequestMethod.POST)
+    public BaseResponse pay(@RequestParam(value = "party_id")String partyId) {
+        User user = this.getRequestedUser();
+        Party party = partyService.getInfo(partyId);
+
+        //余额不足
+        if (user.getAccount() < party.getDeposit()) {
+            return new BaseResponse("score not enough");
+        }
+
+        //聚会加入入口已关闭（或聚会已结束）
+        if (party.getMode() != 10) {
+            return new BaseResponse("entry closed");
+        }
+
+        //加入。新建流水
+        Transaction transaction = new Transaction();
+        transaction.setTransactionId(UID.getUUID());
+        transaction.setPartyId(partyId);
+        transaction.setUserId(user.getOpenId());
+        transaction.setMoney(party.getDeposit());
+        transaction.setPaymentTime(new Date());
+        partyService.createTransaction(transaction);
+
+        //party record
+        PartyRecord record = new PartyRecord();
+        record.setRecordId(UID.getUUID());
+        record.setUserId(user.getOpenId());
+        record.setPartyId(partyId);
+        record.setStatus("unfinished");
+        partyService.createRecord(record);
+
+        //扣钱
+        partyService.pay(user.getOpenId(), partyId, party.getDeposit());
+
+        return new BaseResponse("ok");
+    }
+
+    @RequestMapping(value = "/party/participate", method = RequestMethod.GET)
+    public BaseResponse partyBasicInfo(@RequestParam(value = "party_id") String partyId) {
+        //todo 假设没有为null
+        Party party = partyService.getInfo(partyId);
+
+        //聚会不存在
+        if (party == null) {
+        }
+
+        //聚会已关闭加入（或已结束）
+        if (party.getMode() != 10) {
+            return new BaseResponse("entry closed");
+        }
+
+        return new BaseResponse("ok", new PartyBasicInfoResponse(party));
+    }
+
+    @RequestMapping(value = "/party/detail", method = RequestMethod.GET)
+    public BaseResponse partyDetail(@RequestParam(value = "party_id")String partyId) {
+        User user = this.getRequestedUser();
+        partyService.
+
+        //todo 假设没有为null
+        Party party = partyService.getInfo(partyId);
+
+        return new BaseResponse("ok", new PartyBasicInfoResponse(party));
     }
 }

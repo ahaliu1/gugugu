@@ -2,8 +2,8 @@ package cn.whu.gugugu.service;
 
 import cn.whu.gugugu.GuguguConfig;
 import cn.whu.gugugu.domain.Code2SessionResponse;
-import cn.whu.gugugu.repository.LoginRepository;
-import cn.whu.gugugu.service.impl.AccountImpl;
+import cn.whu.gugugu.repository.UserRepository;
+import cn.whu.gugugu.service.impl.LoginImpl;
 import cn.whu.gugugu.utils.ReadData;
 import com.google.gson.Gson;
 import org.springframework.stereotype.Service;
@@ -13,8 +13,8 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 
 @Service
-public class AccountService implements AccountImpl {
-    LoginRepository loginRepository = new LoginRepository();
+public class LoginService implements LoginImpl {
+    UserRepository userRepository = new UserRepository();
 
     /**
      * 获取session
@@ -39,7 +39,7 @@ public class AccountService implements AccountImpl {
                 Gson gson = new Gson();
                 Code2SessionResponse codeResp = gson.fromJson(result, Code2SessionResponse.class);
                 if (codeResp.getErrcode().equals("0")) {
-                    loginRepository.writeUser(codeResp);
+                    userRepository.writeUser(codeResp);
                     return codeResp.getErrcode();
                 }
             }
@@ -54,6 +54,6 @@ public class AccountService implements AccountImpl {
 
     @Override
     public String getToken(String openId) {
-        return loginRepository.refreshToken(openId);
+        return userRepository.refreshToken(openId);
     }
 }
