@@ -58,8 +58,12 @@ public class UserRepository {
         return user.getToken();
     }
 
-    public void updateUser(User user) {
-        mapper.updateByPrimaryKeySelective(user);
+    public int updateUser(User user) {
+        return mapper.updateByPrimaryKeySelective(user);
+    }
+
+    public int insertUser(User user) {
+        return mapper.insertSelective(user);
     }
 
     public User getUser(String userId) {

@@ -3,9 +3,13 @@ package cn.whu.gugugu.repository;
 import cn.whu.gugugu.generated.mapper.PartyMapper;
 import cn.whu.gugugu.generated.mapper.PartyRecordMapper;
 import cn.whu.gugugu.generated.mapper.TransactionMapper;
-import cn.whu.gugugu.generated.mapper.UserMapper;
-import cn.whu.gugugu.generated.model.*;
+import cn.whu.gugugu.generated.model.Party;
+import cn.whu.gugugu.generated.model.PartyRecord;
+import cn.whu.gugugu.generated.model.PartyRecordExample;
+import cn.whu.gugugu.generated.model.Transaction;
 import org.springframework.beans.factory.annotation.Autowired;
+
+import java.util.List;
 
 public class PartyRepository {
     @Autowired
@@ -31,10 +35,11 @@ public class PartyRepository {
         partyMapper.updateByPrimaryKeySelective(party);
     }
 
-    public PartyRecord getRecord(String partyId) {
+    public PartyRecord getRecord(String partyId, String userId) {
         PartyRecordExample example = new PartyRecordExample();
-        example.createCriteria().andPartyIdEqualTo(partyId);
-        return recordMapper.selectByExample(example).get(0);
+        example.createCriteria().andPartyIdEqualTo(partyId).andUserIdEqualTo(userId);
+        List<PartyRecord> list = recordMapper.selectByExample(example);
+        return list.size() == 0 ? null : list.get(0);
     }
 
     public Party getBasicInfo(String partyId) {

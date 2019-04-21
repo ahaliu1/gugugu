@@ -80,12 +80,11 @@ public class SponsorController extends AuthenticatedController {
         party.setPartyDetail(detail);
         party.setPartyDate(new Date(time));
         party.setDeposit(deposit);
-        party.setParticipateTime(new Date(time));
         party.setLatitude((float) latitude);
         party.setLongtitude((float) longtitude);
         party.setOriginator(user.getOpenId());
         party.setPartyId(partyId);
-        party.setTotalSum(deposit);
+        party.setTotalSum(1);
 
         if (partyId == null || partyId.isEmpty()) {
             //新建
@@ -99,8 +98,7 @@ public class SponsorController extends AuthenticatedController {
             PartyRecord record = new PartyRecord();
             record.setPartyId(id);
             record.setRecordId(UID.getUUID());
-            //todo
-            record.setStatus("unfinished");
+            record.setStatus(0);
             record.setUserId(user.getOpenId());
             partyService.createRecord(record);
 
@@ -114,7 +112,6 @@ public class SponsorController extends AuthenticatedController {
             partyService.createTransaction(transaction);
 
             //扣钱
-
             partyService.pay(user.getOpenId(), partyId, deposit);
         } else {
             //更新
@@ -154,7 +151,7 @@ public class SponsorController extends AuthenticatedController {
         record.setRecordId(UID.getUUID());
         record.setUserId(user.getOpenId());
         record.setPartyId(partyId);
-        record.setStatus("unfinished");
+        record.setStatus(0);
         partyService.createRecord(record);
 
         //扣钱
@@ -165,11 +162,11 @@ public class SponsorController extends AuthenticatedController {
 
     @RequestMapping(value = "/party/participate", method = RequestMethod.GET)
     public BaseResponse partyBasicInfo(@RequestParam(value = "party_id") String partyId) {
-        //todo 假设没有为null
         Party party = partyService.getInfo(partyId);
 
         //聚会不存在
         if (party == null) {
+            return new BaseResponse("no such party");
         }
 
         //聚会已关闭加入（或已结束）
@@ -183,11 +180,19 @@ public class SponsorController extends AuthenticatedController {
     @RequestMapping(value = "/party/detail", method = RequestMethod.GET)
     public BaseResponse partyDetail(@RequestParam(value = "party_id")String partyId) {
         User user = this.getRequestedUser();
-        partyService.
+        PartyRecord record = partyService.getRecord(partyId, user.getOpenId());
 
-        //todo 假设没有为null
+        //无权查询或聚会不存在
+        if (record == null) {
+            return new BaseResponse("invalid party_id");
+        }
+
         Party party = partyService.getInfo(partyId);
 
-        return new BaseResponse("ok", new PartyBasicInfoResponse(party));
+        if (party == null) {
+            return new BaseResponse("invalid party_id");
+        }
+
+        return new BaseResponse("ok", new PartyIdResponse(party));
     }
 }

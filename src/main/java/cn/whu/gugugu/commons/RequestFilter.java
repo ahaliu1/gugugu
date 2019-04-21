@@ -32,10 +32,16 @@ public class RequestFilter implements Filter {
     @Override
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
         HttpServletRequest request = (HttpServletRequest) servletRequest;
-        UserExample example = new UserExample();
-        example.createCriteria().andTokenEqualTo(request.getHeaders("token").toString());
-        List<User> userList = mapper.selectByExample(example);
         RequestUserWrapper requestUserWrapper = new RequestUserWrapper(request);
+
+        if (request.getHeader("token") == null) {
+            filterChain.doFilter(requestUserWrapper, servletResponse);
+            return;
+        }
+
+        UserExample example = new UserExample();
+        example.createCriteria().andTokenEqualTo(request.getHeader("token"));
+        List<User> userList = mapper.selectByExample(example);
         if (userList.size() != 0) {
             User user = userList.get(0);
             Calendar calendar = Calendar.getInstance();

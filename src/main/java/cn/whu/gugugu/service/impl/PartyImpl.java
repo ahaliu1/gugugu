@@ -15,7 +15,7 @@ public interface PartyImpl {
 
     public void pay(String userId, String partyId, int deposit);
 
-    public PartyRecord getRecord(String partyId);
+    public PartyRecord getRecord(String partyId, String userId);
 
     public Party getInfo(String partyId);
 }

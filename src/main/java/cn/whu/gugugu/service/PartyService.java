@@ -45,13 +45,13 @@ public class PartyService implements PartyImpl {
         //聚会信息的钱
         Party temp = partyRepository.getBasicInfo(partyId);
         Party party = new Party();
-        party.setTotalSum(temp.getTotalSum() + fee);
+        party.setTotalSum(party.getTotalSum() + 1);
         partyRepository.updateParty(party);
     }
 
     @Override
-    public PartyRecord getRecord(String partyId) {
-        return partyRepository.getRecord(partyId);
+    public PartyRecord getRecord(String partyId, String userId) {
+        return partyRepository.getRecord(partyId, userId);
     }
 
     @Override
