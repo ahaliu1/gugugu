@@ -17,46 +17,13 @@ public class FixedPointNumber {
         提示，在做计算时，可以直接调用本类的构造函数 public FixedPointNumber(String fixedPointNumber)
         来得到整数表示的定点小数，直接进行四则运算，然后再讲计算结果转换为定点小数进行输出
          */
-    private int storageValue;
-
-    public int getStorageValue() {
-        return storageValue;
-    }
-
-    public void setStorageValue(int storageValue) {
-        this.storageValue = storageValue;
-    }
-
-    /*
-    使用小数点后两位的字符串来初始化定点小数
-     */
-    public FixedPointNumber(String fixedPointNumber) {
-        storageValue = Integer.parseInt(fixedPointNumber.replace(".", ""));
-    }
-
-    /*
-    使用整数初始化定点小数
-     */
-    public FixedPointNumber(int fixedPointNumber) {
-        storageValue = fixedPointNumber;
-    }
-
-    /*
-    输出为字符串
-     */
-    public String toString() {
-        double trueValue = storageValue / 100;
-        DecimalFormat df = new DecimalFormat("0.00");
-        return df.format(trueValue);
-    }
-
-    public static String toString(int value){
+    public static String toString(int value) {
         double trueValue = value / 100;
         DecimalFormat df = new DecimalFormat("0.00");
         return df.format(trueValue);
     }
 
-    public static Integer toInteger(String str){
+    public static Integer toInteger(String str) {
         return Integer.parseInt(str.replace(".", ""));
     }
 }

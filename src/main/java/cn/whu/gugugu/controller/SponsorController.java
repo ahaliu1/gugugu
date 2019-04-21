@@ -1,15 +1,15 @@
 package cn.whu.gugugu.controller;
 
 import cn.whu.gugugu.commons.AuthenticatedController;
-import cn.whu.gugugu.domain.BaseResponse;
-import cn.whu.gugugu.domain.PartyBasicInfoResponse;
-import cn.whu.gugugu.domain.PartyIdResponse;
+import cn.whu.gugugu.domain.*;
 import cn.whu.gugugu.generated.model.Party;
 import cn.whu.gugugu.generated.model.PartyRecord;
 import cn.whu.gugugu.generated.model.Transaction;
 import cn.whu.gugugu.generated.model.User;
 import cn.whu.gugugu.service.PartyService;
+import cn.whu.gugugu.service.UserService;
 import cn.whu.gugugu.service.impl.PartyImpl;
+import cn.whu.gugugu.service.impl.UserImpl;
 import cn.whu.gugugu.utils.FixedPointNumber;
 import cn.whu.gugugu.utils.UID;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -17,12 +17,15 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.regex.Pattern;
 
 @RestController
 public class SponsorController extends AuthenticatedController {
     PartyImpl partyService = new PartyService();
+    UserImpl userService = new UserService();
 
     /**
      * 创建聚会
@@ -43,7 +46,7 @@ public class SponsorController extends AuthenticatedController {
                                     @RequestParam(value = "longtitude") double longtitude,
                                     @RequestParam(value = "party_id") String partyId) {
         User user = this.getRequestedUser();
-        int deposit = new FixedPointNumber(fee).getStorageValue();
+        int deposit = FixedPointNumber.toInteger(fee);
 
         //余额不足
         if (user.getAccount() < deposit) {
@@ -79,12 +82,8 @@ public class SponsorController extends AuthenticatedController {
         party.setPartySubject(name);
         party.setPartyDetail(detail);
         party.setPartyDate(new Date(time));
-        party.setDeposit(deposit);
         party.setLatitude((float) latitude);
         party.setLongtitude((float) longtitude);
-        party.setOriginator(user.getOpenId());
-        party.setPartyId(partyId);
-        party.setTotalSum(1);
 
         if (partyId == null || partyId.isEmpty()) {
             //新建
@@ -92,6 +91,9 @@ public class SponsorController extends AuthenticatedController {
 
             //party
             party.setPartyId(id);
+            party.setTotalSum(1);
+            party.setDeposit(deposit);
+            party.setOriginator(user.getOpenId());
             partyService.createParty(party);
 
             //party record
@@ -115,6 +117,7 @@ public class SponsorController extends AuthenticatedController {
             partyService.pay(user.getOpenId(), partyId, deposit);
         } else {
             //更新
+            party.setPartyId(partyId);
             party.setDeposit(null);
             partyService.updateParty(party);
         }
@@ -193,6 +196,28 @@ public class SponsorController extends AuthenticatedController {
             return new BaseResponse("invalid party_id");
         }
 
-        return new BaseResponse("ok", new PartyIdResponse(party));
+        PartyDetailResponse response = new PartyDetailResponse();
+        response.setName(party.getPartySubject());
+        response.setDetail(party.getPartyDetail());
+        response.setTime(party.getPartyDate().getTime());
+        response.setLatitude(party.getLatitude());
+        response.setLongtitude(party.getLongtitude());
+        response.setFee(FixedPointNumber.toString(party.getDeposit()));
+        response.setTotal(FixedPointNumber.toString(party.getDeposit() * party.getTotalSum()));
+
+        String originator = party.getOriginator();
+        User leader = userService.getUser(originator);
+        response.setLeader(leader.getUserName());
+
+        List<PartyRecord> list = partyService.getRecords(partyId);
+        List<PartyMemberResponse> responseList = new ArrayList<>();
+
+        for (PartyRecord r : list) {
+            User u = userService.getUser(r.getUserId());
+            PartyMemberResponse member = new PartyMemberResponse(user.getUserName(), user.getHeader());
+            responseList.add(member);
+        }
+
+        return new BaseResponse("ok", response);
     }
 }

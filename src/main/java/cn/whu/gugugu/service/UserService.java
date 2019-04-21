@@ -6,8 +6,17 @@ import cn.whu.gugugu.service.impl.UserImpl;
 import org.springframework.stereotype.Service;
 
 @Service
-public class UesrService implements UserImpl {
+public class UserService implements UserImpl {
     UserRepository userRepository = new UserRepository();
+
+    @Override
+    public int updateOrInsertUser(User user) {
+        if (userRepository.getUser(user.getOpenId()) == null) {
+            return userRepository.insertUser(user);
+        } else {
+            return userRepository.updateUser(user);
+        }
+    }
 
     @Override
     public int updateUser(User user) {

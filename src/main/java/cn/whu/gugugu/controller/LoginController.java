@@ -6,7 +6,7 @@ import cn.whu.gugugu.domain.BaseResponse;
 import cn.whu.gugugu.domain.Code2SessionResponse;
 import cn.whu.gugugu.domain.TokenResponse;
 import cn.whu.gugugu.generated.model.User;
-import cn.whu.gugugu.service.UesrService;
+import cn.whu.gugugu.service.UserService;
 import cn.whu.gugugu.service.impl.UserImpl;
 import cn.whu.gugugu.utils.ReadData;
 import cn.whu.gugugu.utils.UID;
@@ -23,7 +23,7 @@ import java.util.Date;
 
 @RestController
 public class LoginController extends AuthenticatedController {
-    UserImpl userService = new UesrService();
+    UserImpl userService = new UserService();
 
     /**
      * 登陆，获取token
@@ -40,7 +40,7 @@ public class LoginController extends AuthenticatedController {
     public BaseResponse login(@RequestParam(value = "code") String code,
                               @RequestParam(value = "name") String name,
                               @RequestParam(value = "header") String header) {
-        String result = getSession(code);
+        String result = getOpenId(code);
 
         switch (result) {
             case "-1":
@@ -55,23 +55,24 @@ public class LoginController extends AuthenticatedController {
                 break;
         }
 
-        User temp = new User();
-        temp.setOpenId(result);
-        temp.setUserName(name);
-        temp.setHeader(header);
-        int count = userService.insertUser(temp);
+        //不管token是否过期，都新建一个token
+        User user = new User();
+        user.setOpenId(result);
+        user.setLoginTime(new Date());
+        user.setToken(UID.getUUID());
+        user.setUserName(name);
+        user.setHeader(header);
+        userService.updateOrInsertUser(user);
 
-        if (count == 0) {
-            return new BaseResponse("user not found");
-        }
-
-        return new BaseResponse("ok");
+        return new BaseResponse("ok", new TokenResponse(user.getToken()));
     }
 
     @RequestMapping(value = "/account/token", method = RequestMethod.GET)
     public BaseResponse token() {
         User user = this.getRequestedUser();
         Date date = new Date();
+
+        //超时
         if (user.getLoginTime().getTime() + 86400000 > date.getTime()) {
             String token = UID.getUUID();
             User temp = new User();
@@ -94,7 +95,7 @@ public class LoginController extends AuthenticatedController {
      * 45011	频率限制，每个用户每分钟100次
      * -2   系统出错
      */
-    public String getSession(String code) {
+    public String getOpenId(String code) {
         //https://api.weixin.qq.com/sns/jscode2session?appid=APPID&secret=SECRET&js_code=JSCODE&grant_type=authorization_code
         HttpURLConnection conn = null;
         try {

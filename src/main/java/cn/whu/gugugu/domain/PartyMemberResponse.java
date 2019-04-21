@@ -1,16 +1,12 @@
 package cn.whu.gugugu.domain;
 
-import cn.whu.gugugu.utils.FixedPointNumber;
-
-public class UserInfoResponse implements DataImpl {
+public class PartyMemberResponse {
     private String username;
     private String header;
-    private String score;
 
-    public UserInfoResponse(String username, String header, int score) {
+    public PartyMemberResponse(String username, String header) {
         this.username = username;
         this.header = header;
-        this.score = new FixedPointNumber(score).toString();
     }
 
     public String getUsername() {
@@ -27,13 +23,5 @@ public class UserInfoResponse implements DataImpl {
 
     public void setHeader(String header) {
         this.header = header;
-    }
-
-    public String getScore() {
-        return score;
-    }
-
-    public void setScore(String score) {
-        this.score = score;
     }
 }

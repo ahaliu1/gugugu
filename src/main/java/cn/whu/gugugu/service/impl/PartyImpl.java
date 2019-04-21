@@ -4,6 +4,8 @@ import cn.whu.gugugu.generated.model.Party;
 import cn.whu.gugugu.generated.model.PartyRecord;
 import cn.whu.gugugu.generated.model.Transaction;
 
+import java.util.List;
+
 public interface PartyImpl {
     public void createParty(Party party);
 
@@ -16,6 +18,8 @@ public interface PartyImpl {
     public void pay(String userId, String partyId, int deposit);
 
     public PartyRecord getRecord(String partyId, String userId);
+
+    public List<PartyRecord> getRecords(String partyId);
 
     public Party getInfo(String partyId);
 }

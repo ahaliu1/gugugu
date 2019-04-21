@@ -15,7 +15,7 @@ public class PartyBasicInfoResponse implements DataImpl {
         detail = party.getPartyDetail();
         latitude = party.getLatitude();
         longtitude = party.getLongtitude();
-        fee = new FixedPointNumber(party.getDeposit()).toString();
+        fee = FixedPointNumber.toString(party.getDeposit());
     }
 
     public String getName() {

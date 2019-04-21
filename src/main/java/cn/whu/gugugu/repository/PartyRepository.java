@@ -42,6 +42,13 @@ public class PartyRepository {
         return list.size() == 0 ? null : list.get(0);
     }
 
+    public List<PartyRecord> getRecords(String partyId) {
+        PartyRecordExample example = new PartyRecordExample();
+        example.createCriteria().andPartyIdEqualTo(partyId);
+        List<PartyRecord> list = recordMapper.selectByExample(example);
+        return list;
+    }
+
     public Party getBasicInfo(String partyId) {
         return partyMapper.selectByPrimaryKey(partyId);
     }

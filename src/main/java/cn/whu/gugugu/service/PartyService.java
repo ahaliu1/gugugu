@@ -9,6 +9,8 @@ import cn.whu.gugugu.repository.UserRepository;
 import cn.whu.gugugu.service.impl.PartyImpl;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class PartyService implements PartyImpl {
     PartyRepository partyRepository = new PartyRepository();
@@ -42,7 +44,7 @@ public class PartyService implements PartyImpl {
         user.setAccount(user.getAccount() - fee);
         userRepository.updateUser(user);
 
-        //聚会信息的钱
+        //聚会信息的总数
         Party temp = partyRepository.getBasicInfo(partyId);
         Party party = new Party();
         party.setTotalSum(party.getTotalSum() + 1);
@@ -52,6 +54,11 @@ public class PartyService implements PartyImpl {
     @Override
     public PartyRecord getRecord(String partyId, String userId) {
         return partyRepository.getRecord(partyId, userId);
+    }
+
+    @Override
+    public List<PartyRecord> getRecords(String partyId) {
+        return partyRepository.getRecords(partyId);
     }
 
     @Override
