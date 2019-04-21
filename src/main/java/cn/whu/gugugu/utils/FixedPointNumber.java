@@ -49,4 +49,14 @@ public class FixedPointNumber {
         DecimalFormat df = new DecimalFormat("0.00");
         return df.format(trueValue);
     }
+
+    public static String toString(int value){
+        double trueValue = value / 100;
+        DecimalFormat df = new DecimalFormat("0.00");
+        return df.format(trueValue);
+    }
+
+    public static Integer toInteger(String str){
+        return Integer.parseInt(str.replace(".", ""));
+    }
 }
