@@ -3,14 +3,14 @@ package cn.whu.gugugu.controller.party;
 import cn.whu.gugugu.commons.AuthenticatedController;
 import cn.whu.gugugu.commons.BaseResponse;
 import cn.whu.gugugu.generated.mapper.PartyMapper;
-import cn.whu.gugugu.generated.model.Party;
-import cn.whu.gugugu.generated.model.PartyExample;
-import cn.whu.gugugu.generated.model.User;
+import cn.whu.gugugu.generated.mapper.PartyRecordMapper;
+import cn.whu.gugugu.generated.model.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import java.util.ArrayList;
+import java.util.List;
 
 class PartyData{
 
@@ -64,11 +64,11 @@ class PartyListData{
         this.next = next;
     }
 
-    public ArrayList<PartyListData> getParties() {
+    public ArrayList<PartyData> getParties() {
         return parties;
     }
 
-    public void setParties(ArrayList<PartyListData> parties) {
+    public void setParties(ArrayList<PartyData> parties) {
         this.parties = parties;
     }
 
@@ -76,7 +76,11 @@ class PartyListData{
 
     private int next;
 
-    private ArrayList<PartyListData> parties = new ArrayList<>();
+    private ArrayList<PartyData> parties = new ArrayList<>();
+
+    public void addPartyRecord(PartyData data){
+        this.parties.add(data);
+    }
 }
 
 
@@ -123,18 +127,45 @@ start 越界（count越界不会报错，只会将剩下的不足count个对象�
     "message": "out of range"
 }
  */
-public class PartyList extends AuthenticatedController {
+public class PartyListController extends AuthenticatedController {
 
     @Autowired
-    private PartyMapper mapper;
+    private PartyRecordMapper mapper;
+
+    @Autowired
+    private PartyMapper mapper1;
 
     @RequestMapping(value = "/party/list", method = RequestMethod.POST)
     public PartyListResponse list(int start, int count){
         User user = getRequestedUser();
-        PartyExample example = new PartyExample();
-        example.createCriteria();
-        ArrayList<Party> parties = mapper.selectByExample();
-
+        PartyListResponse resp = new PartyListResponse();
+        PartyRecordExample example = new PartyRecordExample();
+        example.createCriteria().andUserIdEqualTo(user.getOpenId());
+        List<PartyRecord> parties = mapper.selectByExample(example);
+        int total = parties.size();
+        if (start > total){
+            resp.setMessage("out of range");
+            return resp;
+        }
+        PartyListData data = new PartyListData();
+        data.setTotal(total);
+        int next = 0;
+        if (start + count > total){
+            next = total;
+        }else {
+            next = start + next;
+        }
+        data.setNext(next);
+        for (PartyRecord record: parties) {
+            PartyData pd = new PartyData();
+            pd.setParty_id(record.getPartyId());
+            pd.setMode(record.getStatus());
+            Party party = mapper1.selectByPrimaryKey(record.getPartyId());
+            pd.setName(party.getPartySubject());
+            data.addPartyRecord(pd);
+        }
+        resp.setData(data);
+        return resp;
     }
 
 }
