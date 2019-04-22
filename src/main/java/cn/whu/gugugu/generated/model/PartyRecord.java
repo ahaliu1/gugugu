@@ -7,7 +7,7 @@ public class PartyRecord {
 
     private String userId;
 
-    private String status;
+    private Integer status;
 
     public String getRecordId() {
         return recordId;
@@ -33,11 +33,11 @@ public class PartyRecord {
         this.userId = userId == null ? null : userId.trim();
     }
 
-    public String getStatus() {
+    public Integer getStatus() {
         return status;
     }
 
-    public void setStatus(String status) {
-        this.status = status == null ? null : status.trim();
+    public void setStatus(Integer status) {
+        this.status = status;
     }
 }
