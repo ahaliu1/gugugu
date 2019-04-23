@@ -39,7 +39,6 @@ public class SponsorController extends AuthenticatedController {
      */
     @RequestMapping(value = "/party/launch", method = RequestMethod.POST)
     public BaseResponse launchParty(@RequestParam(value = "name") String name,
-                                    @RequestParam(value = "detail") String detail,
                                     @RequestParam(value = "fee") String fee,
                                     @RequestParam(value = "time") int time,
                                     @RequestParam(value = "latitude") double latitude,
@@ -56,11 +55,6 @@ public class SponsorController extends AuthenticatedController {
         //聚会名字过长
         if (name.length() > 45) {
             return new BaseResponse("name overlength");
-        }
-
-        //详细信息过长
-        if (detail.length() > 200) {
-            return new BaseResponse("detail overlength");
         }
 
         //经度不合法。最大是180° 最小是0°
@@ -80,7 +74,6 @@ public class SponsorController extends AuthenticatedController {
 
         Party party = new Party();
         party.setPartySubject(name);
-        party.setPartyDetail(detail);
         party.setPartyDate(new Date(time));
         party.setLatitude((float) latitude);
         party.setLongtitude((float) longtitude);
@@ -198,7 +191,6 @@ public class SponsorController extends AuthenticatedController {
 
         PartyDetailResponse response = new PartyDetailResponse();
         response.setName(party.getPartySubject());
-        response.setDetail(party.getPartyDetail());
         response.setTime(party.getPartyDate().getTime());
         response.setLatitude(party.getLatitude());
         response.setLongtitude(party.getLongtitude());

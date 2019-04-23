@@ -4,7 +4,6 @@ import java.util.List;
 
 public class PartyDetailResponse implements DataImpl{
     private String name;
-    private String detail;
     private long time;
     private float latitude;
     private float longtitude;
@@ -20,14 +19,6 @@ public class PartyDetailResponse implements DataImpl{
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public String getDetail() {
-        return detail;
-    }
-
-    public void setDetail(String detail) {
-        this.detail = detail;
     }
 
     public long getTime() {
