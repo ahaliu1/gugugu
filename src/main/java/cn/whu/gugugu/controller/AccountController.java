@@ -1,13 +1,11 @@
 package cn.whu.gugugu.controller;
 
 import cn.whu.gugugu.commons.AuthenticatedController;
-import cn.whu.gugugu.commons.BaseResponse;
 import cn.whu.gugugu.commons.MessageResponse;
 import cn.whu.gugugu.generated.mapper.UserMapper;
 import cn.whu.gugugu.generated.model.User;
 import cn.whu.gugugu.utils.FixedPointNumber;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.AutoConfigureOrder;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
@@ -85,8 +83,7 @@ public class AccountController extends AuthenticatedController {
         mapper.updateByPrimaryKey(user);
         AccountResponse resp = new AccountResponse();
         Data data = new Data();
-        FixedPointNumber total = new FixedPointNumber(account);
-        data.setTotal(total.toString());
+        data.setTotal(FixedPointNumber.toString(account));
         resp.setData(data);
         resp.setMessage("ok");
         return resp;
@@ -118,12 +115,12 @@ public class AccountController extends AuthenticatedController {
         User user = getRequestedUser();
         AccountResponse resp = new AccountResponse();
         Integer account = user.getAccount();
-        FixedPointNumber f_amount = new FixedPointNumber(amount);
-        if (f_amount.getStorageValue() > account){
+        Integer f_amount = FixedPointNumber.toInteger(amount);
+        if (f_amount > account){
             resp.setMessage("out of range");
             return resp;
         }
-        int total = account + f_amount.getStorageValue();
+        int total = account + f_amount;
         user.setAccount(total);
         mapper.updateByPrimaryKey(user);
         Data data = new Data();
