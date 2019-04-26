@@ -6,12 +6,13 @@ import cn.whu.gugugu.generated.model.Party;
 import cn.whu.gugugu.generated.model.PartyRecord;
 import cn.whu.gugugu.generated.model.Transaction;
 import cn.whu.gugugu.generated.model.User;
-import cn.whu.gugugu.service.PartyService;
-import cn.whu.gugugu.service.UserService;
-import cn.whu.gugugu.service.impl.PartyImpl;
-import cn.whu.gugugu.service.impl.UserImpl;
+import cn.whu.gugugu.service.PartyServiceImpl;
+import cn.whu.gugugu.service.UserServiceImpl;
+import cn.whu.gugugu.service.impl.PartyService;
+import cn.whu.gugugu.service.impl.UserService;
 import cn.whu.gugugu.utils.FixedPointNumber;
 import cn.whu.gugugu.utils.UID;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -24,8 +25,10 @@ import java.util.regex.Pattern;
 
 @RestController
 public class SponsorController extends AuthenticatedController {
-    PartyImpl partyService = new PartyService();
-    UserImpl userService = new UserService();
+    @Autowired
+    PartyService partyService = new PartyServiceImpl();
+    @Autowired
+    UserService userService = new UserServiceImpl();
 
     /**
      * 创建聚会

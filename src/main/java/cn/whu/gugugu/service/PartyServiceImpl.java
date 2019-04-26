@@ -6,15 +6,18 @@ import cn.whu.gugugu.generated.model.Transaction;
 import cn.whu.gugugu.generated.model.User;
 import cn.whu.gugugu.repository.PartyRepository;
 import cn.whu.gugugu.repository.UserRepository;
-import cn.whu.gugugu.service.impl.PartyImpl;
+import cn.whu.gugugu.service.impl.PartyService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
-public class PartyService implements PartyImpl {
-    PartyRepository partyRepository = new PartyRepository();
-    UserRepository userRepository = new UserRepository();
+public class PartyServiceImpl implements PartyService {
+    @Autowired
+    PartyRepository partyRepository;
+    @Autowired
+    UserRepository userRepository;
 
     @Override
     public void createParty(Party party) {

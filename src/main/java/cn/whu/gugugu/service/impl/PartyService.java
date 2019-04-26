@@ -6,7 +6,7 @@ import cn.whu.gugugu.generated.model.Transaction;
 
 import java.util.List;
 
-public interface PartyImpl {
+public interface PartyService {
     public void createParty(Party party);
 
     public void createRecord(PartyRecord record);

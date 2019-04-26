@@ -8,9 +8,11 @@ import cn.whu.gugugu.generated.model.PartyRecord;
 import cn.whu.gugugu.generated.model.PartyRecordExample;
 import cn.whu.gugugu.generated.model.Transaction;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
+@Repository
 public class PartyRepository {
     @Autowired
     PartyMapper partyMapper;

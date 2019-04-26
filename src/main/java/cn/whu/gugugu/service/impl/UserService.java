@@ -2,7 +2,7 @@ package cn.whu.gugugu.service.impl;
 
 import cn.whu.gugugu.generated.model.User;
 
-public interface UserImpl {
+public interface UserService {
     public int updateOrInsertUser(User user);
 
     public int updateUser(User user);

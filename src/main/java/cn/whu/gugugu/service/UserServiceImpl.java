@@ -2,12 +2,14 @@ package cn.whu.gugugu.service;
 
 import cn.whu.gugugu.generated.model.User;
 import cn.whu.gugugu.repository.UserRepository;
-import cn.whu.gugugu.service.impl.UserImpl;
+import cn.whu.gugugu.service.impl.UserService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
-public class UserService implements UserImpl {
-    UserRepository userRepository = new UserRepository();
+public class UserServiceImpl implements UserService {
+    @Autowired
+    UserRepository userRepository;
 
     @Override
     public int updateOrInsertUser(User user) {

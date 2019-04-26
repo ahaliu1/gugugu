@@ -6,11 +6,12 @@ import cn.whu.gugugu.domain.BaseResponse;
 import cn.whu.gugugu.domain.Code2SessionResponse;
 import cn.whu.gugugu.domain.TokenResponse;
 import cn.whu.gugugu.generated.model.User;
-import cn.whu.gugugu.service.UserService;
-import cn.whu.gugugu.service.impl.UserImpl;
+import cn.whu.gugugu.service.UserServiceImpl;
+import cn.whu.gugugu.service.impl.UserService;
 import cn.whu.gugugu.utils.ReadData;
 import cn.whu.gugugu.utils.UID;
 import com.google.gson.Gson;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -23,7 +24,8 @@ import java.util.Date;
 
 @RestController
 public class LoginController extends AuthenticatedController {
-    UserImpl userService = new UserService();
+    @Autowired
+    UserService userService = new UserServiceImpl();
 
     /**
      * 登陆，获取token
