@@ -30,11 +30,11 @@ class PartyData{
         this.name = name;
     }
 
-    public String getMode() {
+    public int getMode() {
         return mode;
     }
 
-    public void setMode(String mode) {
+    public void setMode(int mode) {
         this.mode = mode;
     }
 
@@ -42,7 +42,7 @@ class PartyData{
 
     private String name;
 
-    private String mode;
+    private int mode;
 
 }
 
