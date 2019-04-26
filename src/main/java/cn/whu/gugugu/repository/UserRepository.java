@@ -11,6 +11,7 @@ import cn.whu.gugugu.utils.UID;
 import com.google.gson.Gson;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
+import org.springframework.stereotype.Service;
 
 import java.io.IOException;
 import java.math.BigInteger;
@@ -21,7 +22,7 @@ import java.security.NoSuchAlgorithmException;
 import java.util.Date;
 import java.util.UUID;
 
-@Repository
+@Service
 public class UserRepository {
     @Autowired
     UserMapper mapper;
