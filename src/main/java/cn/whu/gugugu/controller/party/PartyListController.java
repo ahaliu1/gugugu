@@ -1,7 +1,6 @@
 package cn.whu.gugugu.controller.party;
 
 import cn.whu.gugugu.commons.AuthenticatedController;
-import cn.whu.gugugu.commons.BaseResponse;
 import cn.whu.gugugu.commons.MessageResponse;
 import cn.whu.gugugu.generated.mapper.PartyMapper;
 import cn.whu.gugugu.generated.mapper.PartyRecordMapper;
