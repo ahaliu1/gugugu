@@ -2,13 +2,17 @@ package cn.whu.gugugu.controller;
 
 import cn.whu.gugugu.commons.AuthenticatedController;
 import cn.whu.gugugu.commons.MessageResponse;
+import cn.whu.gugugu.generated.mapper.TransactionMapper;
 import cn.whu.gugugu.generated.mapper.UserMapper;
+import cn.whu.gugugu.generated.model.Transaction;
 import cn.whu.gugugu.generated.model.User;
 import cn.whu.gugugu.utils.FixedPointNumber;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.Date;
 
 class Data {
 
@@ -47,6 +51,9 @@ public class AccountController extends AuthenticatedController {
     @Autowired
     private UserMapper mapper;
 
+    @Autowired
+    private TransactionMapper mapper1;
+
     /*
     充值
     注意，金额用字符串表示，只向下取整保留到小数点后2位
@@ -81,6 +88,14 @@ public class AccountController extends AuthenticatedController {
         account += Integer.parseInt(amount);
         user.setAccount(account);
         mapper.updateByPrimaryKey(user);
+        // 新增交易记录
+        Transaction transaction = new Transaction();
+        transaction.setUserId(user.getOpenId());
+        transaction.setPaymentTime(new Date());
+        transaction.setPartyId("TOP");
+        transaction.setMoney(FixedPointNumber.toInteger(amount));
+        mapper1.insert(transaction);
+        // end
         AccountResponse resp = new AccountResponse();
         Data data = new Data();
         data.setTotal(FixedPointNumber.toString(account));
@@ -123,6 +138,14 @@ public class AccountController extends AuthenticatedController {
         int total = account + f_amount;
         user.setAccount(total);
         mapper.updateByPrimaryKey(user);
+        // 新增交易记录
+        Transaction transaction = new Transaction();
+        transaction.setUserId(user.getOpenId());
+        transaction.setPaymentTime(new Date());
+        transaction.setPartyId("WITHDRAW");
+        transaction.setMoney(- FixedPointNumber.toInteger(amount));
+        mapper1.insert(transaction);
+        // end
         Data data = new Data();
         data.setTotal(FixedPointNumber.toString(total));
         resp.setMessage("ok");
