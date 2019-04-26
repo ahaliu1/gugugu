@@ -85,7 +85,7 @@ public class AccountController extends AuthenticatedController {
     public AccountResponse top(String amount){
         User user = this.getRequestedUser();
         Integer account = user.getAccount();
-        account += Integer.parseInt(amount);
+        account += FixedPointNumber.toInteger(amount);
         user.setAccount(account);
         mapper.updateByPrimaryKey(user);
         // 新增交易记录
