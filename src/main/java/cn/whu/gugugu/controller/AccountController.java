@@ -2,6 +2,7 @@ package cn.whu.gugugu.controller;
 
 import cn.whu.gugugu.commons.AuthenticatedController;
 import cn.whu.gugugu.commons.BaseResponse;
+import cn.whu.gugugu.commons.MessageResponse;
 import cn.whu.gugugu.generated.mapper.UserMapper;
 import cn.whu.gugugu.generated.model.User;
 import cn.whu.gugugu.utils.FixedPointNumber;
@@ -24,9 +25,7 @@ class Data {
     }
 }
 
-class AccountResponse extends BaseResponse {
-
-    private String message = "ok";
+class AccountResponse extends MessageResponse {
 
     private Data data = null;
 
@@ -36,14 +35,6 @@ class AccountResponse extends BaseResponse {
 
     public void setData(Data data) {
         this.data = data;
-    }
-
-    public String getMessage() {
-        return message;
-    }
-
-    public void setMessage(String message) {
-        this.message = message;
     }
 
 }
@@ -97,6 +88,7 @@ public class AccountController extends AuthenticatedController {
         FixedPointNumber total = new FixedPointNumber(account);
         data.setTotal(total.toString());
         resp.setData(data);
+        resp.setMessage("ok");
         return resp;
     }
 
@@ -136,6 +128,7 @@ public class AccountController extends AuthenticatedController {
         mapper.updateByPrimaryKey(user);
         Data data = new Data();
         data.setTotal(FixedPointNumber.toString(total));
+        resp.setMessage("ok");
         return resp;
     }
 }

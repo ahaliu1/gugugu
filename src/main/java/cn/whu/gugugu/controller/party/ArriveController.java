@@ -1,14 +1,19 @@
 package cn.whu.gugugu.controller.party;
 
 import cn.whu.gugugu.commons.AuthenticatedController;
-import cn.whu.gugugu.commons.BaseResponse;
+import cn.whu.gugugu.commons.MessageResponse;
 import cn.whu.gugugu.generated.mapper.PartyMapper;
+import cn.whu.gugugu.generated.mapper.PartyRecordMapper;
 import cn.whu.gugugu.generated.model.Party;
+import cn.whu.gugugu.generated.model.PartyRecord;
+import cn.whu.gugugu.generated.model.PartyRecordExample;
 import cn.whu.gugugu.generated.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-class ArriveResponse extends BaseResponse{
+import java.util.List;
+
+class ArriveResponse extends MessageResponse {
 
 }
 
@@ -38,7 +43,10 @@ public class ArriveController extends AuthenticatedController {
     @Autowired
     private PartyMapper mapper;
 
-    private static final  double EARTH_RADIUS = 6378137;  //赤道半径
+    @Autowired
+    private PartyRecordMapper mapper1;
+
+    private static final  double EARTH_RADIUS = 6378137;  // 赤道半径
     private static double rad(double d){
         return d * Math.PI / 180.0;
     }
@@ -49,7 +57,7 @@ public class ArriveController extends AuthenticatedController {
         double b = rad(lon1) - rad(lon2);
         double s = 2 *Math.asin(Math.sqrt(Math.pow(Math.sin(a/2),2)+Math.cos(radLat1)*Math.cos(radLat2)*Math.pow(Math.sin(b/2),2)));
         s = s * EARTH_RADIUS;
-        return s;//单位米
+        return s;  //单位米
     }
 
     @RequestMapping(value = "/party/arrive", method = RequestMethod.POST)
@@ -66,12 +74,23 @@ public class ArriveController extends AuthenticatedController {
         }
         Float lo = party.getLongtitude();
         Float la = party.getLatitude();
-        Float _lo = Float.parseFloat(longtitude);
-        Float _la = Float.parseFloat(latitude);
+        float _lo = Float.parseFloat(longtitude);
+        float _la = Float.parseFloat(latitude);
         if (GetDistance(lo, la, _lo, _la) > 100){
             resp.setMessage("wrong region");
             return resp;
         }
+        // 在范围内，更新记录
+        PartyRecordExample example = new PartyRecordExample();
+        example.createCriteria().andUserIdEqualTo(user.getOpenId()).andPartyIdEqualTo(party_id);
+        List<PartyRecord> records = mapper1.selectByExample(example);
+        if (records.size() == 0){  // 不属于这个party
+            resp.setMessage("no such party");
+            return resp;
+        }
+        PartyRecord record = records.get(0);  // 一定有且仅有一个记录
+        record.setStatus(1);  // 1 = 已签到未结算
+        mapper1.updateByPrimaryKey(record);
         resp.setMessage("ok");
         return resp;
     }

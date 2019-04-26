@@ -1,7 +1,7 @@
 package cn.whu.gugugu.controller.party;
 
 import cn.whu.gugugu.commons.AuthenticatedController;
-import cn.whu.gugugu.commons.BaseResponse;
+import cn.whu.gugugu.commons.MessageResponse;
 import cn.whu.gugugu.generated.mapper.PartyMapper;
 import cn.whu.gugugu.generated.mapper.PartyRecordMapper;
 import cn.whu.gugugu.generated.mapper.UserMapper;
@@ -37,11 +37,10 @@ class ManualData {
 
 }
 
-class ManualResponse extends BaseResponse{
+class ManualResponse extends MessageResponse {
 
     private ManualData data;
 
-    @Override
     public ManualData getData() {
         return data;
     }
@@ -117,7 +116,7 @@ public class ManualController extends AuthenticatedController {
             return resp;
         }
         PartyRecord record1 = record.get(0);
-        record1.setStatus(2);
+        record1.setStatus(1);  // 1 = 已签到未结算
         mapper1.updateByPrimaryKey(record1);
         resp.setMessage("ok");
         ManualData data = new ManualData();

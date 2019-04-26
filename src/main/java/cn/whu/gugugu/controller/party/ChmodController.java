@@ -1,7 +1,7 @@
 package cn.whu.gugugu.controller.party;
 
 import cn.whu.gugugu.commons.AuthenticatedController;
-import cn.whu.gugugu.commons.BaseResponse;
+import cn.whu.gugugu.commons.MessageResponse;
 import cn.whu.gugugu.generated.mapper.PartyMapper;
 import cn.whu.gugugu.generated.mapper.PartyRecordMapper;
 import cn.whu.gugugu.generated.mapper.TransactionMapper;
@@ -29,11 +29,8 @@ class Data {
     }
 }
 
-class ChmodResponse extends BaseResponse {
+class ChmodResponse extends MessageResponse {
 
-    private Data data = null;
-
-    @Override
     public Data getData() {
         return data;
     }
@@ -41,6 +38,9 @@ class ChmodResponse extends BaseResponse {
     public void setData(Data data) {
         this.data = data;
     }
+
+    private Data data = null;
+
 }
 
 /*
