@@ -33,7 +33,7 @@ public class RequestFilter implements Filter {
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
         HttpServletRequest request = (HttpServletRequest) servletRequest;
         UserExample example = new UserExample();
-        example.createCriteria().andTokenEqualTo(request.getHeaders("token").toString());
+        example.createCriteria().andTokenEqualTo(request.getHeader("token"));
         List<User> userList = mapper.selectByExample(example);
         RequestUserWrapper requestUserWrapper = new RequestUserWrapper(request);
         if (userList.size() != 0) {

@@ -7,7 +7,6 @@ import org.springframework.web.context.request.ServletRequestAttributes;
 public class AuthenticatedController {
     protected User getRequestedUser(){
         ServletRequestAttributes servletRequestAttributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
-        RequestUserWrapper requestUserWrapper = (RequestUserWrapper) servletRequestAttributes.getRequest();
-        return requestUserWrapper.getUser();
+        return ((RequestUserWrapper)(servletRequestAttributes.getRequest())).getUser();
     }
 }

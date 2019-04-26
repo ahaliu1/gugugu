@@ -2,12 +2,14 @@ package cn.whu.gugugu.controller.party;
 
 import cn.whu.gugugu.commons.AuthenticatedController;
 import cn.whu.gugugu.commons.BaseResponse;
+import cn.whu.gugugu.commons.MessageResponse;
 import cn.whu.gugugu.generated.mapper.PartyMapper;
 import cn.whu.gugugu.generated.mapper.PartyRecordMapper;
 import cn.whu.gugugu.generated.model.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -83,19 +85,29 @@ class PartyListData{
     }
 }
 
+/*
+{
+    "message": String,
+    "data": {
+        "total": int,
+        "next": int,
+        "parties": [
+            ...
+        ]
+    }
+}
+ */
+class PartyListResponse extends MessageResponse {
 
-class PartyListResponse extends BaseResponse{
-
-    @Override
-    public Data getData() {
+    public PartyListData getData() {
         return data;
     }
 
-    public void setData(Data data) {
+    public void setData(PartyListData data) {
         this.data = data;
     }
 
-    private Data data = null;
+    private PartyListData data = null;
 }
 
 /*
@@ -127,6 +139,7 @@ start 越界（count越界不会报错，只会将剩下的不足count个对象�
     "message": "out of range"
 }
  */
+@RestController
 public class PartyListController extends AuthenticatedController {
 
     @Autowired
@@ -135,7 +148,7 @@ public class PartyListController extends AuthenticatedController {
     @Autowired
     private PartyMapper mapper1;
 
-    @RequestMapping(value = "/party/list", method = RequestMethod.POST)
+    @RequestMapping(value = "/party/list", method = RequestMethod.GET)
     public PartyListResponse list(int start, int count){
         User user = getRequestedUser();
         PartyListResponse resp = new PartyListResponse();
@@ -165,6 +178,7 @@ public class PartyListController extends AuthenticatedController {
             data.addPartyRecord(pd);
         }
         resp.setData(data);
+        resp.setMessage("ok");
         return resp;
     }
 
