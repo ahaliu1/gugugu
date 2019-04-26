@@ -148,6 +148,7 @@ public class AccountController extends AuthenticatedController {
         // end
         Data data = new Data();
         data.setTotal(FixedPointNumber.toString(total));
+        resp.setData(data);
         resp.setMessage("ok");
         return resp;
     }
