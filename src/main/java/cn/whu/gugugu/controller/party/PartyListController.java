@@ -5,6 +5,7 @@ import cn.whu.gugugu.commons.MessageResponse;
 import cn.whu.gugugu.generated.mapper.PartyMapper;
 import cn.whu.gugugu.generated.mapper.PartyRecordMapper;
 import cn.whu.gugugu.generated.model.*;
+import com.github.pagehelper.PageHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -118,10 +119,11 @@ public class PartyListController extends AuthenticatedController {
     public PartyListResponse list(int start, int count){
         User user = getRequestedUser();
         PartyListResponse resp = new PartyListResponse();
+
         PartyRecordExample example = new PartyRecordExample();
         example.createCriteria().andUserIdEqualTo(user.getOpenId());
-        List<PartyRecord> parties = mapper.selectByExample(example);
-        int total = parties.size();
+
+        int total = (int) mapper.countByExample(example);
         if (start > total){
             resp.setMessage("out of range");
             return resp;
@@ -135,6 +137,12 @@ public class PartyListController extends AuthenticatedController {
             next = start + next;
         }
         data.setNext(next);
+
+
+        PageHelper.startPage(start, count);
+        example.createCriteria().andUserIdEqualTo(user.getOpenId());
+        List<PartyRecord> parties = mapper.selectByExample(example);
+
         for (PartyRecord record: parties) {
             Party party = mapper1.selectByPrimaryKey(record.getPartyId());
             data.addPartyRecord(party);
