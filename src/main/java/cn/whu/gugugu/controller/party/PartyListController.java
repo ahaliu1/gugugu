@@ -4,7 +4,10 @@ import cn.whu.gugugu.commons.AuthenticatedController;
 import cn.whu.gugugu.commons.MessageResponse;
 import cn.whu.gugugu.generated.mapper.PartyMapper;
 import cn.whu.gugugu.generated.mapper.PartyRecordMapper;
-import cn.whu.gugugu.generated.model.*;
+import cn.whu.gugugu.generated.model.Party;
+import cn.whu.gugugu.generated.model.PartyRecord;
+import cn.whu.gugugu.generated.model.PartyRecordExample;
+import cn.whu.gugugu.generated.model.User;
 import com.github.pagehelper.PageHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -15,7 +18,55 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-class PartyListData{
+class PartyDate {
+    String party_id;
+    String name;
+    long time;
+    String place;
+    int mode;
+
+    public String getParty_id() {
+        return party_id;
+    }
+
+    public void setParty_id(String party_id) {
+        this.party_id = party_id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public long getTime() {
+        return time;
+    }
+
+    public void setTime(long time) {
+        this.time = time;
+    }
+
+    public String getPlace() {
+        return place;
+    }
+
+    public void setPlace(String place) {
+        this.place = place;
+    }
+
+    public int getMode() {
+        return mode;
+    }
+
+    public void setMode(int mode) {
+        this.mode = mode;
+    }
+}
+
+class PartyListData {
 
     public int getTotal() {
         return total;
@@ -47,7 +98,7 @@ class PartyListData{
 
     private ArrayList<Party> parties = new ArrayList<>();
 
-    public void addPartyRecord(Party data){
+    public void addPartyRecord(Party data) {
         this.parties.add(data);
     }
 }
@@ -116,7 +167,7 @@ public class PartyListController extends AuthenticatedController {
     private PartyMapper mapper1;
 
     @RequestMapping(value = "/party/list", method = RequestMethod.GET)
-    public PartyListResponse list(int start, int count){
+    public PartyListResponse list(int start, int count) {
         User user = getRequestedUser();
         PartyListResponse resp = new PartyListResponse();
 
@@ -124,27 +175,32 @@ public class PartyListController extends AuthenticatedController {
         example.createCriteria().andUserIdEqualTo(user.getOpenId());
 
         int total = (int) mapper.countByExample(example);
-        if (start > total){
+        if (start > total) {
             resp.setMessage("out of range");
             return resp;
         }
         PartyListData data = new PartyListData();
         data.setTotal(total);
         int next = 0;
-        if (start + count > total){
+        if (start + count > total) {
             next = total;
-        }else {
+        } else {
             next = start + next;
         }
         data.setNext(next);
-
 
         PageHelper.startPage(start, count);
         example.createCriteria().andUserIdEqualTo(user.getOpenId());
         List<PartyRecord> parties = mapper.selectByExample(example);
 
-        for (PartyRecord record: parties) {
+        for (PartyRecord record : parties) {
             Party party = mapper1.selectByPrimaryKey(record.getPartyId());
+            PartyDate pd = new PartyDate();
+            pd.setParty_id(party.getPartyId());
+            pd.setName(party.getPartySubject());
+            pd.setTime(party.getPartyDate().getTime());
+            pd.setPlace(party.getPlace());
+            pd.setMode(party.getMode());
             data.addPartyRecord(party);
         }
         resp.setData(data);

@@ -2,9 +2,10 @@ package cn.whu.gugugu.domain;
 
 import java.util.List;
 
-public class PartyDetailResponse implements DataImpl{
+public class PartyDetailResponse implements DataImpl {
     private String name;
     private long time;
+    private String place;
     private float latitude;
     private float longtitude;
     private String fee;
@@ -27,6 +28,14 @@ public class PartyDetailResponse implements DataImpl{
 
     public void setTime(long time) {
         this.time = time;
+    }
+
+    public String getPlace() {
+        return place;
+    }
+
+    public void setPlace(String place) {
+        this.place = place;
     }
 
     public float getLatitude() {

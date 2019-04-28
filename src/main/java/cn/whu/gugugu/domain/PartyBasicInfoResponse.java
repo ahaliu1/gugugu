@@ -4,15 +4,17 @@ import cn.whu.gugugu.generated.model.Party;
 import cn.whu.gugugu.utils.FixedPointNumber;
 
 public class PartyBasicInfoResponse implements DataImpl {
-    public String name;
-    public String detail;
-    public float latitude;
-    public float longtitude;
-    public String fee;
+    private String name;
+    private String detail;
+    private String place;
+    private float latitude;
+    private float longtitude;
+    private String fee;
 
     public PartyBasicInfoResponse(Party party) {
         name = party.getPartySubject();
         detail = party.getPartyDetail();
+        place = party.getPlace();
         latitude = party.getLatitude();
         longtitude = party.getLongtitude();
         fee = FixedPointNumber.toString(party.getDeposit());
@@ -32,6 +34,14 @@ public class PartyBasicInfoResponse implements DataImpl {
 
     public void setDetail(String detail) {
         this.detail = detail;
+    }
+
+    public String getPlace() {
+        return place;
+    }
+
+    public void setPlace(String place) {
+        this.place = place;
     }
 
     public float getLatitude() {

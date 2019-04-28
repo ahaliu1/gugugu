@@ -45,6 +45,7 @@ public class SponsorController extends AuthenticatedController {
     public BaseResponse launchParty(@RequestParam(value = "name") String name,
                                     @RequestParam(value = "fee") String fee,
                                     @RequestParam(value = "time") long time,
+                                    @RequestParam(value = "place") String place,
                                     @RequestParam(value = "latitude") double latitude,
                                     @RequestParam(value = "longtitude") double longtitude,
                                     @RequestParam(value = "party_id", required = false) String partyId) {
@@ -59,6 +60,10 @@ public class SponsorController extends AuthenticatedController {
         //聚会名字过长
         if (name.length() > 45) {
             return new BaseResponse("name overlength");
+        }
+
+        if (place.length() > 200) {
+            return new BaseResponse("place overlength");
         }
 
         //经度不合法。最大是180° 最小是0°
@@ -79,6 +84,7 @@ public class SponsorController extends AuthenticatedController {
         Party party = new Party();
         party.setPartySubject(name);
         party.setPartyDate(new Date(time));
+        party.setPlace(place);
         party.setLatitude((float) latitude);
         party.setLongtitude((float) longtitude);
 
@@ -92,6 +98,7 @@ public class SponsorController extends AuthenticatedController {
             party.setDeposit(deposit);
             party.setOriginator(user.getOpenId());
             party.setMode(0);
+            party.setOriginator(user.getOpenId());
             partyService.createParty(party);
 
             //party record
@@ -197,6 +204,7 @@ public class SponsorController extends AuthenticatedController {
         PartyDetailResponse response = new PartyDetailResponse();
         response.setName(party.getPartySubject());
         response.setTime(party.getPartyDate().getTime());
+        response.setPlace(party.getPlace());
         response.setLatitude(party.getLatitude());
         response.setLongtitude(party.getLongtitude());
         response.setFee(FixedPointNumber.toString(party.getDeposit()));
