@@ -48,8 +48,7 @@ public class SponsorController extends AuthenticatedController {
                                     @RequestParam(value = "place") String place,
                                     @RequestParam(value = "latitude") double latitude,
                                     @RequestParam(value = "longtitude") double longtitude,
-                                    @RequestParam(value = "party_id", required = false) String partyId,
-                                    @RequestParam(value = "location", required = false) String location) {
+                                    @RequestParam(value = "party_id", required = false) String partyId) {
         User user = this.getRequestedUser();
         int deposit = FixedPointNumber.toInteger(fee);
 
@@ -100,7 +99,6 @@ public class SponsorController extends AuthenticatedController {
             party.setOriginator(user.getOpenId());
             party.setMode(0);
             party.setOriginator(user.getOpenId());
-            party.setPartyDetail(location);
             partyService.createParty(party);
 
             //party record
@@ -213,7 +211,6 @@ public class SponsorController extends AuthenticatedController {
         response.setTotal(FixedPointNumber.toString(party.getDeposit() * party.getTotalSum()));
 
         response.setMode(party.getMode());
-        response.setLocation(party.getPartyDetail());  // 把详情当地点
 
         String originator = party.getOriginator();
         User leader = userService.getUser(originator);

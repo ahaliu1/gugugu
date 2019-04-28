@@ -12,7 +12,6 @@ public class PartyDetailResponse implements DataImpl {
     private String total;
     private String leader;
     private Integer mode;
-    private String location;
 
     private List<PartyMemberResponse> members;
 
@@ -94,13 +93,5 @@ public class PartyDetailResponse implements DataImpl {
 
     public void setMode(Integer mode) {
         this.mode = mode;
-    }
-
-    public String getLocation() {
-        return location;
-    }
-
-    public void setLocation(String location) {
-        this.location = location;
     }
 }
