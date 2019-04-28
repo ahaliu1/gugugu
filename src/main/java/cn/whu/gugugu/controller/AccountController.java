@@ -7,6 +7,7 @@ import cn.whu.gugugu.generated.mapper.UserMapper;
 import cn.whu.gugugu.generated.model.Transaction;
 import cn.whu.gugugu.generated.model.User;
 import cn.whu.gugugu.utils.FixedPointNumber;
+import cn.whu.gugugu.utils.UID;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -91,6 +92,7 @@ public class AccountController extends AuthenticatedController {
         mapper.updateByPrimaryKey(user);
         // 新增交易记录
         Transaction transaction = new Transaction();
+        transaction.setTransactionId(UID.getUUID());
         transaction.setUserId(user.getOpenId());
         transaction.setPaymentTime(new Date());
         transaction.setPartyId("TOP");
@@ -141,6 +143,7 @@ public class AccountController extends AuthenticatedController {
         mapper.updateByPrimaryKey(user);
         // 新增交易记录
         Transaction transaction = new Transaction();
+        transaction.setTransactionId(UID.getUUID());
         transaction.setUserId(user.getOpenId());
         transaction.setPaymentTime(new Date());
         transaction.setPartyId("WITHDRAW");
