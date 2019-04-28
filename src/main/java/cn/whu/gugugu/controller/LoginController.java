@@ -112,10 +112,12 @@ public class LoginController extends AuthenticatedController {
                 String result = ReadData.readData(conn.getInputStream());
                 Gson gson = new Gson();
                 Code2SessionResponse codeResp = gson.fromJson(result, Code2SessionResponse.class);
-                if (codeResp.getErrcode().equals("0")) {
+
+                if (codeResp.getErrcode() == null || codeResp.getErrcode().equals("0")) {
                     return codeResp.getOpenid();
+                } else {
+                    return codeResp.getErrcode();
                 }
-                return codeResp.getErrcode();
             }
         } catch (IOException e) {
             e.printStackTrace();
