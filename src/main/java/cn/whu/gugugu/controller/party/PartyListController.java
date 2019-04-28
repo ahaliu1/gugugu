@@ -13,39 +13,6 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.ArrayList;
 import java.util.List;
 
-class PartyData{
-
-    public String getParty_id() {
-        return party_id;
-    }
-
-    public void setParty_id(String party_id) {
-        this.party_id = party_id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public int getMode() {
-        return mode;
-    }
-
-    public void setMode(int mode) {
-        this.mode = mode;
-    }
-
-    private String party_id;
-
-    private String name;
-
-    private int mode;
-
-}
 
 class PartyListData{
 
@@ -65,11 +32,11 @@ class PartyListData{
         this.next = next;
     }
 
-    public ArrayList<PartyData> getParties() {
+    public ArrayList<Party> getParties() {
         return parties;
     }
 
-    public void setParties(ArrayList<PartyData> parties) {
+    public void setParties(ArrayList<Party> parties) {
         this.parties = parties;
     }
 
@@ -77,9 +44,9 @@ class PartyListData{
 
     private int next;
 
-    private ArrayList<PartyData> parties = new ArrayList<>();
+    private ArrayList<Party> parties = new ArrayList<>();
 
-    public void addPartyRecord(PartyData data){
+    public void addPartyRecord(Party data){
         this.parties.add(data);
     }
 }
@@ -169,16 +136,11 @@ public class PartyListController extends AuthenticatedController {
         }
         data.setNext(next);
         for (PartyRecord record: parties) {
-            PartyData pd = new PartyData();
-            pd.setParty_id(record.getPartyId());
-            pd.setMode(record.getStatus());
             Party party = mapper1.selectByPrimaryKey(record.getPartyId());
-            pd.setName(party.getPartySubject());
-            data.addPartyRecord(pd);
+            data.addPartyRecord(party);
         }
         resp.setData(data);
         resp.setMessage("ok");
         return resp;
     }
-
 }
