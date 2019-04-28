@@ -54,6 +54,8 @@ public class LoginController extends AuthenticatedController {
                 return new BaseResponse("login too frequent");
             case "-2":
                 return new BaseResponse("system error");
+            case "40013":
+                return new BaseResponse("invalid app");
             default:
                 break;
         }
