@@ -14,6 +14,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public int updateOrInsertUser(User user) {
         if (userRepository.getUser(user.getOpenId()) == null) {
+            user.setAccount(0);
             return userRepository.insertUser(user);
         } else {
             return userRepository.updateUser(user);

@@ -40,18 +40,18 @@ public class PartyServiceImpl implements PartyService {
     }
 
     @Override
-    public void pay(String userId, String partyId, int fee) {
+    public void pay(User user, Party party) {
         //自己的钱
-        User user = new User();
-        user.setOpenId(userId);
-        user.setAccount(user.getAccount() - fee);
-        userRepository.updateUser(user);
+        User u = new User();
+        u.setOpenId(user.getOpenId());
+        u.setAccount(user.getAccount() - party.getDeposit());
+        userRepository.updateUser(u);
 
         //聚会信息的总数
-        Party temp = partyRepository.getBasicInfo(partyId);
-        Party party = new Party();
-        party.setTotalSum(party.getTotalSum() + 1);
-        partyRepository.updateParty(party);
+        Party p = new Party();
+        p.setPartyId(party.getPartyId());
+        p.setTotalSum(party.getTotalSum() + 1);
+        partyRepository.updateParty(p);
     }
 
     @Override
