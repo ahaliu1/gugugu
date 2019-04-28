@@ -25,6 +25,8 @@ public class Party {
 
     private Integer mode;
 
+    private String place;
+
     public String getPartyId() {
         return partyId;
     }
@@ -111,5 +113,13 @@ public class Party {
 
     public void setMode(Integer mode) {
         this.mode = mode;
+    }
+
+    public String getPlace() {
+        return place;
+    }
+
+    public void setPlace(String place) {
+        this.place = place == null ? null : place.trim();
     }
 }

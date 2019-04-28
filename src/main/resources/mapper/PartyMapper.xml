@@ -13,6 +13,7 @@
     <result column="total_sum" jdbcType="INTEGER" property="totalSum" />
     <result column="participate_time" jdbcType="TIMESTAMP" property="participateTime" />
     <result column="mode" jdbcType="INTEGER" property="mode" />
+    <result column="place" jdbcType="VARCHAR" property="place" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -74,7 +75,7 @@
   </sql>
   <sql id="Base_Column_List">
     party_id, party_subject, party_detail, party_date, deposit, latitude, longtitude, 
-    originator, total_sum, participate_time, mode
+    originator, total_sum, participate_time, mode, place
   </sql>
   <select id="selectByExample" parameterType="cn.whu.gugugu.generated.model.PartyExample" resultMap="BaseResultMap">
     select
@@ -110,11 +111,13 @@
     insert into party (party_id, party_subject, party_detail, 
       party_date, deposit, latitude, 
       longtitude, originator, total_sum, 
-      participate_time, mode)
+      participate_time, mode, place
+      )
     values (#{partyId,jdbcType=VARCHAR}, #{partySubject,jdbcType=VARCHAR}, #{partyDetail,jdbcType=VARCHAR}, 
       #{partyDate,jdbcType=TIMESTAMP}, #{deposit,jdbcType=INTEGER}, #{latitude,jdbcType=REAL}, 
       #{longtitude,jdbcType=REAL}, #{originator,jdbcType=VARCHAR}, #{totalSum,jdbcType=INTEGER}, 
-      #{participateTime,jdbcType=TIMESTAMP}, #{mode,jdbcType=INTEGER})
+      #{participateTime,jdbcType=TIMESTAMP}, #{mode,jdbcType=INTEGER}, #{place,jdbcType=VARCHAR}
+      )
   </insert>
   <insert id="insertSelective" parameterType="cn.whu.gugugu.generated.model.Party">
     insert into party
@@ -152,6 +155,9 @@
       <if test="mode != null">
         mode,
       </if>
+      <if test="place != null">
+        place,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="partyId != null">
@@ -186,6 +192,9 @@
       </if>
       <if test="mode != null">
         #{mode,jdbcType=INTEGER},
+      </if>
+      <if test="place != null">
+        #{place,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -231,6 +240,9 @@
       <if test="record.mode != null">
         mode = #{record.mode,jdbcType=INTEGER},
       </if>
+      <if test="record.place != null">
+        place = #{record.place,jdbcType=VARCHAR},
+      </if>
     </set>
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
@@ -248,7 +260,8 @@
       originator = #{record.originator,jdbcType=VARCHAR},
       total_sum = #{record.totalSum,jdbcType=INTEGER},
       participate_time = #{record.participateTime,jdbcType=TIMESTAMP},
-      mode = #{record.mode,jdbcType=INTEGER}
+      mode = #{record.mode,jdbcType=INTEGER},
+      place = #{record.place,jdbcType=VARCHAR}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -286,6 +299,9 @@
       <if test="mode != null">
         mode = #{mode,jdbcType=INTEGER},
       </if>
+      <if test="place != null">
+        place = #{place,jdbcType=VARCHAR},
+      </if>
     </set>
     where party_id = #{partyId,jdbcType=VARCHAR}
   </update>
@@ -300,7 +316,8 @@
       originator = #{originator,jdbcType=VARCHAR},
       total_sum = #{totalSum,jdbcType=INTEGER},
       participate_time = #{participateTime,jdbcType=TIMESTAMP},
-      mode = #{mode,jdbcType=INTEGER}
+      mode = #{mode,jdbcType=INTEGER},
+      place = #{place,jdbcType=VARCHAR}
     where party_id = #{partyId,jdbcType=VARCHAR}
   </update>
 </mapper>
