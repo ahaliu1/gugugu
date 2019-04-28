@@ -210,7 +210,7 @@ public class SponsorController extends AuthenticatedController {
         List<PartyMemberResponse> memberList = new ArrayList<>();
 
         for (PartyRecord r : list) {
-            PartyMemberResponse member = new PartyMemberResponse(user.getUserName(), user.getHeader());
+            PartyMemberResponse member = new PartyMemberResponse(user.getUserName(), user.getHeader(), r.getStatus());
             memberList.add(member);
         }
         response.setMembers(memberList);
