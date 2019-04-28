@@ -42,8 +42,8 @@ public class LoginController extends AuthenticatedController {
     public BaseResponse login(@RequestParam(value = "code") String code,
                               @RequestParam(value = "name") String name,
                               @RequestParam(value = "header") String header) {
-//        String result = getOpenId(code);
-        String result = "result";
+        String result = getOpenId(code);
+        //String result = "result";
 
         switch (result) {
             case "-1":
