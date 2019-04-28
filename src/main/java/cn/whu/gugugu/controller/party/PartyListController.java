@@ -134,17 +134,17 @@ public class PartyListController extends AuthenticatedController {
         if (start + count > total){
             next = total;
         }else {
-            next = start + next;
+            next = start + count;
         }
         data.setNext(next);
 
 
-        PageHelper.startPage(start, count);
+        //PageHelper.startPage(start, count);
         example.createCriteria().andUserIdEqualTo(user.getOpenId());
         List<PartyRecord> parties = mapper.selectByExample(example);
 
-        for (PartyRecord record: parties) {
-            Party party = mapper1.selectByPrimaryKey(record.getPartyId());
+        for (int i = start; i<next; i++) {
+            Party party = mapper1.selectByPrimaryKey(parties.get(i).getPartyId());
             data.addPartyRecord(party);
         }
         resp.setData(data);
