@@ -78,7 +78,7 @@ class TransactionItem{
 
 class TransactionData{
 
-    private ArrayList<TransactionItem> transaction;
+    private ArrayList<TransactionItem> transaction = new ArrayList<>();
 
     public ArrayList<TransactionItem> getTransaction() {
         return transaction;
@@ -146,6 +146,7 @@ public class UserController extends AuthenticatedController {
             }
             i.setPayment_time(t.getPaymentTime().getTime());
             i.setTransaction_id(t.getTransactionId());
+            data.addTransactionItem(i);
         }
         TransactionResponse resp = new TransactionResponse();
         resp.setMessage("ok");
