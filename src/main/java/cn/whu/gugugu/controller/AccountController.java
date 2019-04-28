@@ -8,6 +8,7 @@ import cn.whu.gugugu.utils.FixedPointNumber;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 class Data {
@@ -78,7 +79,7 @@ public class AccountController extends AuthenticatedController {
     public AccountResponse top(String amount){
         User user = this.getRequestedUser();
         Integer account = user.getAccount();
-        account += Integer.parseInt(amount);
+        account += FixedPointNumber.toInteger(amount);
         user.setAccount(account);
         mapper.updateByPrimaryKey(user);
         AccountResponse resp = new AccountResponse();

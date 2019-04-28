@@ -92,9 +92,9 @@ public class ChmodController extends AuthenticatedController {
     private UserMapper mapper4;
 
     @RequestMapping(value = "/party/chmod", method = RequestMethod.POST)
-    public ChmodResponse chmod(String part_id, String mode){
+    public ChmodResponse chmod(String party_id, String mode){
         User user = getRequestedUser();
-        Party party = mapper.selectByPrimaryKey(part_id);
+        Party party = mapper.selectByPrimaryKey(party_id);
         ChmodResponse resp = new ChmodResponse();
         // 检查当前 User 是否为 party_id 对应的 Party 的盟主，或者 party 是否存在
         if (party == null || !party.getOriginator().equals(user.getOpenId())){
@@ -113,12 +113,12 @@ public class ChmodController extends AuthenticatedController {
         // 要转换的状态为3，付款
         if (mode.equals("3")){
             PartyRecordExample example = new PartyRecordExample();
-            example.createCriteria().andPartyIdEqualTo(part_id);
+            example.createCriteria().andPartyIdEqualTo(party_id);
             Long total_joined = mapper1.countByExample(example);  // 总参与人数，若为0则全部给盟主
 
             PartyRecordExample example1 = new PartyRecordExample();
             // PartyRecord.status 0 代表已加入未签到, 1 代表已签到未结算，2代表已签到已结算
-            example1.createCriteria().andPartyIdEqualTo(part_id).andStatusEqualTo(1);
+            example1.createCriteria().andPartyIdEqualTo(party_id).andStatusEqualTo(1);
             long total_signed = mapper1.countByExample(example1);
 
             long total_account = party.getTotalSum()*total_joined;  // 总金额 = Party.sum * 参与记录条数
@@ -130,7 +130,7 @@ public class ChmodController extends AuthenticatedController {
                 // 创建账单，只对签到的人创建账单
                 Transaction transaction = new Transaction();
                 transaction.setMoney((int)total_account);
-                transaction.setPartyId(part_id);
+                transaction.setPartyId(party_id);
                 transaction.setPaymentTime(new Date());  // 据说此时间为当前时间
                 transaction.setUserId(user.getOpenId());
                 mapper3.insert(transaction);
@@ -139,7 +139,7 @@ public class ChmodController extends AuthenticatedController {
                 mapper.updateByPrimaryKey(party);
                 // 更新 Party records
                 PartyRecordExample example2 = new PartyRecordExample();
-                example2.createCriteria().andPartyIdEqualTo(part_id);
+                example2.createCriteria().andPartyIdEqualTo(party_id);
                 List<PartyRecord> records = mapper1.selectByExample(example2);
                 for (PartyRecord record: records) {
                     if (record.getStatus() == 1){
@@ -155,7 +155,7 @@ public class ChmodController extends AuthenticatedController {
             // 至少有一人签到的状况
             // 更新金额
             PartyRecordExample example2 = new PartyRecordExample();
-            example2.createCriteria().andPartyIdEqualTo(part_id);
+            example2.createCriteria().andPartyIdEqualTo(party_id);
             List<PartyRecord> records =  mapper1.selectByExample(example2);
             for (PartyRecord record: records){
                 // 计算每人分到的金额
@@ -168,7 +168,7 @@ public class ChmodController extends AuthenticatedController {
                     // 创建账单
                     Transaction transaction = new Transaction();
                     transaction.setMoney(every);
-                    transaction.setPartyId(part_id);
+                    transaction.setPartyId(party_id);
                     transaction.setPaymentTime(new Date());
                     transaction.setUserId(user1.getOpenId());
                     mapper3.insert(transaction);

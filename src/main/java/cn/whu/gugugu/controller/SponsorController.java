@@ -32,6 +32,7 @@ public class SponsorController extends AuthenticatedController {
 
     /**
      * 创建聚会
+     *
      * @param name       聚会名称
      * @param fee        每人的积分
      * @param time       集合时间
@@ -43,10 +44,10 @@ public class SponsorController extends AuthenticatedController {
     @RequestMapping(value = "/party/launch", method = RequestMethod.POST)
     public BaseResponse launchParty(@RequestParam(value = "name") String name,
                                     @RequestParam(value = "fee") String fee,
-                                    @RequestParam(value = "time") int time,
+                                    @RequestParam(value = "time") long time,
                                     @RequestParam(value = "latitude") double latitude,
                                     @RequestParam(value = "longtitude") double longtitude,
-                                    @RequestParam(value = "party_id") String partyId) {
+                                    @RequestParam(value = "party_id", required = false) String partyId) {
         User user = this.getRequestedUser();
         int deposit = FixedPointNumber.toInteger(fee);
 
@@ -90,6 +91,7 @@ public class SponsorController extends AuthenticatedController {
             party.setTotalSum(1);
             party.setDeposit(deposit);
             party.setOriginator(user.getOpenId());
+            party.setMode(0);
             partyService.createParty(party);
 
             //party record
@@ -110,7 +112,7 @@ public class SponsorController extends AuthenticatedController {
             partyService.createTransaction(transaction);
 
             //扣钱
-            partyService.pay(user.getOpenId(), partyId, deposit);
+            partyService.pay(user, party);
         } else {
             //更新
             party.setPartyId(partyId);
@@ -121,8 +123,8 @@ public class SponsorController extends AuthenticatedController {
         return new BaseResponse("ok", new PartyIdResponse(party.getPartyId()));
     }
 
-    @RequestMapping(value = "/party/pay?party_id", method = RequestMethod.POST)
-    public BaseResponse pay(@RequestParam(value = "party_id")String partyId) {
+    @RequestMapping(value = "/party/pay", method = RequestMethod.POST)
+    public BaseResponse pay(@RequestParam(value = "party_id") String partyId) {
         User user = this.getRequestedUser();
         Party party = partyService.getInfo(partyId);
 
@@ -132,7 +134,7 @@ public class SponsorController extends AuthenticatedController {
         }
 
         //聚会加入入口已关闭（或聚会已结束）
-        if (party.getMode() != 10) {
+        if (party.getMode() != 2) {
             return new BaseResponse("entry closed");
         }
 
@@ -154,7 +156,7 @@ public class SponsorController extends AuthenticatedController {
         partyService.createRecord(record);
 
         //扣钱
-        partyService.pay(user.getOpenId(), partyId, party.getDeposit());
+        partyService.pay(user, party);
 
         return new BaseResponse("ok");
     }
@@ -169,7 +171,7 @@ public class SponsorController extends AuthenticatedController {
         }
 
         //聚会已关闭加入（或已结束）
-        if (party.getMode() != 10) {
+        if (party.getMode() != 2) {
             return new BaseResponse("entry closed");
         }
 
@@ -177,7 +179,7 @@ public class SponsorController extends AuthenticatedController {
     }
 
     @RequestMapping(value = "/party/detail", method = RequestMethod.GET)
-    public BaseResponse partyDetail(@RequestParam(value = "party_id")String partyId) {
+    public BaseResponse partyDetail(@RequestParam(value = "party_id") String partyId) {
         User user = this.getRequestedUser();
         PartyRecord record = partyService.getRecord(partyId, user.getOpenId());
 
@@ -205,13 +207,13 @@ public class SponsorController extends AuthenticatedController {
         response.setLeader(leader.getUserName());
 
         List<PartyRecord> list = partyService.getRecords(partyId);
-        List<PartyMemberResponse> responseList = new ArrayList<>();
+        List<PartyMemberResponse> memberList = new ArrayList<>();
 
         for (PartyRecord r : list) {
-            User u = userService.getUser(r.getUserId());
             PartyMemberResponse member = new PartyMemberResponse(user.getUserName(), user.getHeader());
-            responseList.add(member);
+            memberList.add(member);
         }
+        response.setMembers(memberList);
 
         return new BaseResponse("ok", response);
     }
